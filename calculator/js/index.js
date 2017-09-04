@@ -1,7 +1,19 @@
 /* Calculator
 
 TODO:
-Objective: Build a CodePen.io app that is functionally similar to this: https://codepen.io/FreeCodeCamp/full/rLJZrA/.
+AddEventListener is not a function
+- jquery rows/cols
+Display total
+Display chained commands
+Process command chain
+
+DONE:
+Design look/font
+- css buttons
+- google font
+
+OBJECTIVE: 
+Build a CodePen.io app that is functionally similar to this: https://codepen.io/FreeCodeCamp/full/rLJZrA/.
 
 Fulfill the below user stories. Use whichever libraries or APIs you need. Give it your own personal style.
 
@@ -20,6 +32,11 @@ You can get feedback on your project by sharing it with your friends on Facebook
 DONE:
 
 */  
+    function playButtonPress() {
+          var sound = document.getElementById("buttonSound");
+          sound.play();
+      }
+
   var listStreams = function() {
     addLog("Listing streams")
    
@@ -96,11 +113,26 @@ DONE:
   })
 
   }
+function buttClick() {
+  playButtonPress();
+  if (this.id="AC") {
+    
+  }
+  alert(this.id);
+  
+
+}
+
 
 $(document).ready(function() {
   addLog("Document Ready")
-  listStreams()
+  var butts = document.getElementsByClassName("mo-butt")
+  for (a of butts) {
+    a.addEventListener("click",buttClick);// addeventlistener    
+  }
+
 })
+
 
 var addLog = function(msg) {
   //$(".mo-log").append(msg+"<BR>")

@@ -1,8 +1,19 @@
 /* Tomato
 
 TODO:
+Display activity length
+Set activity length
+Display break length
+Set break length
+Display time
+Count down time
+Reset clock
+Start/Pause clock
 
-Objective: Build a CodePen.io app that is functionally similar to this: https://codepen.io/FreeCodeCamp/full/aNyxXR/.
+
+DONE:
+
+OBJECTIVE: Build a CodePen.io app that is functionally similar to this: https://codepen.io/FreeCodeCamp/full/aNyxXR/.
 
 Fulfill the below user stories. Use whichever libraries or APIs you need. Give it your own personal style.
 

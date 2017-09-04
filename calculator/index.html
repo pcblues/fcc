@@ -3,24 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <title>Calculator</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <link rel="stylesheet" href="css/style.css">
+ <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
 
-    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>
+ <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>
+<audio id="buttonSound" src="http://www.soundjay.com/button/beep-07.wav" autostart="false" ></audio>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" ></script>
 </head>
 
 <body>
-  <div class="container">
+  <div class="container mo-page">
   <div class="mo-title mo-box text-center">
-  <p>Life's a Twitch</p>
-    </div>
+  <p>Calculator</p>
+
+<div class = "mo-case">
+  <div class="row">
+<span class = "mo-display mo-box">0</span>
+  </div>
+  <div class="row">
+      
+<span class = "mo-progress mo-box">Go</span>
+</div>
+
+<div class="row">
+    <div class="col">
+        
+    <span id="AC" class = "mo-butt mo-ac">AC</span>
+  </div>
+</div>
+<div class="row">
+      <div class="col">
+        <span id = "7" class = "mo-butt mo-7">7</span></div>
+        <div class="col">
+          <span id = "8" class = "mo-butt mo-8">8</span></div>
+          <div class="col"><span id = "9" class = "mo-butt mo-9">9</span></div>
+            <div class="col"><span id = "PL" class = "mo-butt mo-plus">+</span></div>
+</div>
+<div class="row">
+    <div class="col"><span id = "4" class = "mo-butt mo-4">4</span></div>
+      <div class="col"><span id = "5" class = "mo-butt mo-5">5</span></div>
+        <div class="col"><span id = "6" class = "mo-butt mo-6">6</span></div>
+          <div class="col"><span id = "MI" class = "mo-butt mo-minus">-</span></div>
+</div>
+<div class="row">
+    <div class="col"><span id = "1" class = "mo-butt mo-1">1</span></div>
+      <div class="col"><span id = "2" class = "mo-butt mo-2">2</span></div>
+        <div class="col"><span id = "3" class = "mo-butt mo-3">3</span></div>
+          <div class="col"><span id = "MU" class = "mo-butt mo-multiply">x</span></div>
+</div>
+<div class="row">
+    <div class="col"><span id = "0" class = "mo-butt mo-0">0</span></div>
+      <div class="col"><span id = "DP" class = "mo-butt mo-decplace">.</span></div>
+        <div class="col"><span id = "EQ" class = "mo-butt mo-equals">=</span></div>
+          <div class="col"><span id = "DI" class = "mo-butt mo-divide">/</span></div>
+  </div>
+
+</div>
+
 <div class="mo-results">
   </div>
- <div class="mo-credit mo-box text-center">
+ <div class="mo-credit text-center">
   by <a href="https://codepen.io/pcblues">Mark Daniel Osborne</a>
 </div>
 
-<div class="mo-log">
+<div class="mo-log mo-box">
+</div>
 </div>
 
 </div>  

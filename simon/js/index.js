@@ -1,8 +1,33 @@
 /* Simon
 
 TODO:
+Design game board
+- button colour / highlight colour
+- restart botton
+- toggle switch for strict mode
+- game name
+Design sounds
+- red
+- blue
+- green
+- yellow
+- lose
+- start
+- victory
+Show four colours
+Start a chain of button presses
+Sound for each colour
+Display button sequence
+If wrong, replay sequence
+Show current length of sequence
+Reset button
+20 steps wins
+Mode selection - one error auto-restart, no auto-restart
 
-Objective: Build a CodePen.io app that is functionally similar to this: https://codepen.io/FreeCodeCamp/full/obYBjE.
+DONE:
+
+OBJECTIVE: 
+Build a CodePen.io app that is functionally similar to this: https://codepen.io/FreeCodeCamp/full/obYBjE.
 
 Fulfill the below user stories. Use whichever libraries or APIs you need. Give it your own personal style.
 
