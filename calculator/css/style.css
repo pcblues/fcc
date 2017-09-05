@@ -1,8 +1,22 @@
+.row
+{
+  max-height: 20px;
+  
+}
+.col
+{ 
+  max-width: 20px;
+}
+
+.mo-case
+{
+max-width: 100px;
+}
+
 .mo-page
 {
   font-family: 'Orbitron', sans-serif;
 }
-
 
 .mo-butt{
 border-color:#3A4C7D;border-width: 0px 0px 2px 0px;border-style: solid; -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;font-size:12px; padding: 10px 10px 10px 10px; text-decoration:none; display:inline-block;text-shadow: -1px -1px 0 rgba(0,0,0,0.3);font-weight:bold; color: #FFFFFF;
@@ -54,32 +68,10 @@ border-color:#3A4C7D;border-width: 0px 0px 2px 0px;border-style: solid; -webkit-
     min-height:100px
 
 }
-.mo-weather 
-{
-  font-size: 20px;
-}
 
-.mo-gotgeo
-{
-  font-size: 10px;
-
-}
 
 .mo-credit
   {
     font-size: 10px;
 
   }
-
-
-#searchClear {
-    position: absolute;
-    right: 5px;
-    top: 0;
-    bottom: 0;
-    height: 14px;
-    margin: auto;
-    font-size: 14px;
-    cursor: pointer;
-    color: #ccc;
-}

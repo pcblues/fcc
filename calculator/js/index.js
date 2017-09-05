@@ -1,16 +1,26 @@
 /* Calculator
 
+
 TODO:
-AddEventListener is not a function
-- jquery rows/cols
+Stretch displays across box
+- use table?
+Buttons same size
+Rows/cols
 Display total
 Display chained commands
 Process command chain
 
 DONE:
+Error: AddEventListener is not a function
 Design look/font
 - css buttons
 - google font
+
+TO RUN:
+http-server in fcc directory
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222
+Run app in code
+Refresh in browser
 
 OBJECTIVE: 
 Build a CodePen.io app that is functionally similar to this: https://codepen.io/FreeCodeCamp/full/rLJZrA/.
@@ -29,102 +39,59 @@ When you are finished, click the "I've completed this challenge" button and incl
 
 You can get feedback on your project by sharing it with your friends on Facebook.
 
-DONE:
 
 */  
-    function playButtonPress() {
-          var sound = document.getElementById("buttonSound");
-          sound.play();
-      }
+var commandString = ""
+var displayString = "0"
 
-  var listStreams = function() {
-    addLog("Listing streams")
-   
-  addLog("Running getJSON...");
-  var CORS = "https://cors-anywhere.herokuapp.com/"
-  var twitchBaseURL = "https://wind-bow.gomix.me/twitch-api/"
-  var twitchURL = CORS+twitchBaseURL
-  var twitchTV = "https://www.twitch.tv/"
-  var streamers = ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas","brunofin432","comster404324"]
-
-  $(".mo-results").html("")
-  $.each(streamers,function(x,streamer) { 
-    
-    var thisTwitchChannel = twitchURL+"channels/"+streamer+"/"
-    addLog(thisTwitchChannel);
-  
-  $.getJSON( thisTwitchChannel,{},
-  function(result) 
-     {
-      addLog("Done 1...")
-      addLog(result)  
-      var channel = result
-      var channelName = ""
-      var channelGame = ""
-      var channelStatus = ""
-      var channelLogoURL = ""
-      var channelFollowers = ""
-      var channelViewers = ""
-      if (channel) {
-        channelName = channel.display_name
-        channelGame = channel.game
-        channelStatus = channel.status
-        channelViews = channel.views
-        channelFollowers = channel.followers
-        channelLogoURL = channel.logo
-      }
-      // links.channel and links.self need left/twitchURLing.
-      //var resultBlock = "<a href=\""+links+"\" target=\"_blank\">"
-      var resultBlock = "<div class=\"mo-box\">"
-        resultBlock += "<b>"+streamer+"</b>"
-      if (channelGame) {
-        resultBlock += " - " + channelGame
-      }
-        resultBlock +="<br>"
-      if (channelLogoURL) {
-              resultBlock += "<img class=\"mo-logo\"src=\""+channelLogoURL+"\"></img><br>  "
-      }
-      if (channelStatus=="404") {
-        resultBlock += "User does not exist<br>"
-      }
-      else if (channelStatus) {        
-        resultBlock += "Views: "+channelViews+ " Followers: "+channelFollowers
-        resultBlock += "<a href=\""+twitchTV+streamer+"\" target=\"_blank\"><p>"+channelStatus+"</p></a>"
-      } else {
-        resultBlock+="Offline<BR>"
-      }
-      resultBlock+="</div>"
-      $(".mo-results").append(resultBlock) 
-       
-     })
-   .done(
-     //function() {addLog("Done 2...");}
-   )
-  .fail(
-         function( jqXHR, textStatus, errorThrown )
-         {
-          var errText = "Fail...<BR>"+textStatus+"<BR>"+errorThrown+"<BR>"
-           addLog(errText)
-        } 
-  )
-  .always(     
-    //function() {addLog("Always...");}
-  )
-  })
-
+function playButtonPress() {
+      var sound = document.getElementById("buttonSound");
+      sound.play();
   }
+
+function updateScreen() {
+  $(".mo-display").html(displayString) 
+  $(".mo-progress").html(commandString) 
+}
+  
 function buttClick() {
   playButtonPress();
-  if (this.id="AC") {
+  if (this.id=="AC") {
+    displayString = "0"
+    commandString = ""
+    
+  }  else 
+  if (this.id=="PL") {
+    commandString += " + "
+  }  else
+  if (this.id=="MI") {
+    commandString += " - "    
+  }  else
+  if (this.id=="MU") {
+    commandString += " x "
+    
+  }  else
+  if (this.id=="DI") {
+    commandString += " / "
+    
+  }  else
+  if (this.id=="DP") {
+    commandString += "."
+    
+  }  else
+  if (this.id=="EQ") {
+    commandString += " = "
+  }  else {
+    // a number
+    commandString += this.id
     
   }
-  alert(this.id);
-  
-
+  updateScreen()
 }
 
 
 $(document).ready(function() {
+  updateScreen()
   addLog("Document Ready")
   var butts = document.getElementsByClassName("mo-butt")
   for (a of butts) {
@@ -133,9 +100,8 @@ $(document).ready(function() {
 
 })
 
-
 var addLog = function(msg) {
   //$(".mo-log").append(msg+"<BR>")
-  console.log(msg)
+  
 }
 
