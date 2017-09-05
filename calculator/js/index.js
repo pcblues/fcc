@@ -2,19 +2,23 @@
 
 
 TODO:
-Stretch displays across box
-- use table?
-Buttons same size
-Rows/cols
-Display total
-Display chained commands
 Process command chain
+Finish use cases
+
+LATER:
+Make default progress text blank without wrecking height of box
 
 DONE:
 Error: AddEventListener is not a function
 Design look/font
 - css buttons
 - google font
+Stretch displays across box
+- use table?
+Buttons same size
+Rows/cols
+Display total
+Display chained commands
 
 TO RUN:
 http-server in fcc directory
@@ -29,7 +33,7 @@ Fulfill the below user stories. Use whichever libraries or APIs you need. Give i
 
 User Story: I can add, subtract, multiply and divide two numbers.
 
-User Story: I can clear the input field with a clear button.
+DONE User Story: I can clear the input field with a clear button.
 
 User Story: I can keep chaining mathematical operations together until I hit the equal button, and the calculator will tell me the correct output.
 
@@ -41,8 +45,55 @@ You can get feedback on your project by sharing it with your friends on Facebook
 
 
 */  
-var commandString = ""
-var displayString = "0"
+var defaultCommand="output"
+var defaultDisplay = "0"
+var defaultError = "error"
+var commandString = defaultCommand
+var displayString = defaultDisplay
+var clearOutput =false
+
+function processResult() {
+  var result = 0;
+  var comms=commandString.split(" ")
+  var noInput = true  
+  var nextEl= ""
+  var el = ""
+  var lastEl = ""
+  for (var c=0;c<comms.length-1;c++) {
+    lastEl=0
+    el=(comms[c])
+    if (el!="") {
+      nextEl=(comms[c+1])
+      if (el=="+") {
+        result+=parseFloat(nextEl)
+      } else if (el=="-") {
+        result-=parseFloat(nextEl)
+        
+      } else if (el=="x") {
+        result*=parseFloat(nextEl)
+        
+      } else if (el=="/") {
+        result/=parseFloat(nextEl)
+        
+      } else if (el=="="){
+        if (noInput==true) {
+          result = parseFloat(lastEl)
+        }
+      } else {
+        // number
+        if (noInput==true) {
+          result = parseFloat(el)
+        }
+      }
+      noInput = false
+      } 
+    }
+
+  
+  displayString = result
+  commandString+=" "+result
+  clearOutput = true
+}
 
 function playButtonPress() {
       var sound = document.getElementById("buttonSound");
@@ -51,39 +102,50 @@ function playButtonPress() {
 
 function updateScreen() {
   $(".mo-display").html(displayString) 
+
   $(".mo-progress").html(commandString) 
 }
   
+function addCommand(pCom) {
+  if (clearOutput==true) {
+    commandString = ""
+    clearOutput =false
+  }
+  if (commandString==defaultCommand) {
+    commandString = ""
+  }
+  commandString+=pCom
+}
 function buttClick() {
   playButtonPress();
   if (this.id=="AC") {
-    displayString = "0"
-    commandString = ""
-    
+    displayString = defaultDisplay
+    commandString = defaultCommand
   }  else 
   if (this.id=="PL") {
-    commandString += " + "
+    addCommand(" + ")
   }  else
   if (this.id=="MI") {
-    commandString += " - "    
+    addCommand(" - ")   
   }  else
   if (this.id=="MU") {
-    commandString += " x "
+    addCommand(" x ")
     
   }  else
   if (this.id=="DI") {
-    commandString += " / "
+    addCommand(" / ")
     
   }  else
   if (this.id=="DP") {
-    commandString += "."
+    addCommand(".")
     
   }  else
   if (this.id=="EQ") {
-    commandString += " = "
+    addCommand(" = ")
+    processResult();
   }  else {
     // a number
-    commandString += this.id
+    addCommand(this.id)
     
   }
   updateScreen()
@@ -102,6 +164,6 @@ $(document).ready(function() {
 
 var addLog = function(msg) {
   //$(".mo-log").append(msg+"<BR>")
-  
+  console.log(msg)
 }
 
