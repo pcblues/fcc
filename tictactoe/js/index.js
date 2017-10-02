@@ -1,5 +1,9 @@
 /* Tic Tac Toe
 
+http-server
+run chrome on test port
+refresh
+
 TODO:
 Choose X or O
 Graphic of game
