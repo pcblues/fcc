@@ -4,6 +4,13 @@
   width:400px;
 }
 
+#circlecont {
+  margin: 20px;
+  width: 200px;
+  height: 200px;
+  position: relative;
+}
+
 .mo-box
 {
     margin-top: 10px;
