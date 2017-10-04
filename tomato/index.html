@@ -11,12 +11,35 @@
 
 <body>
   <div class="container">
+  
   <div class="mo-title mo-box text-center">
   <p>I say Tomato, you say Pomodoro</p>
-  <span id="start"> </span>
-<span id="pause"> </span>
-<span id="time"> </span>
-
+  <table class = "mo-table">
+  <tr>
+  <td>
+  <button id="mo-breakUp" class="btn btn-primary mo-button">+</button>
+  <span id="mo-breakTime"> </span>
+  <button id="mo-breakDown" class="btn btn-primary mo-button">-</button>
+  </td>
+  <td>
+  </td>
+  <td>
+  <button id="mo-timeUp" class="btn btn-primary mo-button">+</button>
+  <span id="mo-timeStart"> </span>
+  <button id="mo-timeDown" class="btn btn-primary mo-button">-</button>
+  </td>
+  </tr>
+  <tr>
+  <td colspan="3">
+  <span id="mo-remaining"></span>
+  </td>
+  </tr>
+  <tr>
+  <td colspan="3">
+  <button id="mo-reset" class="btn btn-primary mo-button">Reset</button>
+  </td>
+  </tr>
+  </table>
     </div>
 <div class="mo-results">
   </div>
