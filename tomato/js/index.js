@@ -53,6 +53,35 @@ var activityLength = 25
 var breakLength = 5
 var timeLeft = 0
 
+var bar = new ProgressBar.Circle('#circlecont', {
+  color: '#aaa',
+  // This has to be the same size as the maximum width to
+  // prevent clipping
+  strokeWidth: 4,
+  trailWidth: 1,
+  easing: 'easeInOut',
+  duration: 1400,
+  text: {
+    autoStyleContainer: false
+  },
+  from: { color: '#aaa', width: 1 },
+  to: { color: '#333', width: 4 },
+  // Set default step function for all animate calls
+  step: function(state, circle) {
+    circle.path.setAttribute('stroke', state.color);
+    circle.path.setAttribute('stroke-width', state.width);
+
+    var value = Math.round(circle.value() * 100);
+    if (value === 0) {
+      circle.setText('');
+    } else {
+      circle.setText(value);
+    }
+
+  }
+})
+bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif'
+bar.text.style.fontSize = '2rem'
 
 $(document).ready(function() {
   $("#mo-start").html("Start")
@@ -62,7 +91,6 @@ $(document).ready(function() {
   document.getElementById("mo-breakDown").addEventListener("click",breakDown  );// addeventlistener  
   document.getElementById("mo-reset").addEventListener("click",reset);// addeventlistener
   document.getElementById("mo-start").addEventListener("click",start);// addeventlistener
-  document.getElementById("mo-remaining").addEventListener("click",remaining  );// addeventlistener  
   document.getElementById("mo-timeUp").addEventListener("click",timeUp);// addeventlistener
   document.getElementById("mo-timeDown").addEventListener("click",timeDown  );// addeventlistener  
   setInterval(doTimer,1000)
@@ -119,46 +147,16 @@ var reset=function() {
 }
 
 
-var updateScreen = function() {
-  $("#mo-breakTime").html(breakLength)
-  $("#mo-timeStart").html(activityLength)
-  $("#mo-remaining").html(timeLeft)
-}
+
 
 var addLog = function(msg) {
-  $(".mo-log").append(msg+"<BR>")
+  //$(".mo-log").append(msg+"<BR>")
   console.log(msg)
 }
 
-
-var bar = new ProgressBar.Circle('#circlecont', {
-  color: '#aaa',
-  // This has to be the same size as the maximum width to
-  // prevent clipping
-  strokeWidth: 4,
-  trailWidth: 1,
-  easing: 'easeInOut',
-  duration: 1400,
-  text: {
-    autoStyleContainer: false
-  },
-  from: { color: '#aaa', width: 1 },
-  to: { color: '#333', width: 4 },
-  // Set default step function for all animate calls
-  step: function(state, circle) {
-    circle.path.setAttribute('stroke', state.color);
-    circle.path.setAttribute('stroke-width', state.width);
-
-    var value = Math.round(circle.value() * 100);
-    if (value === 0) {
-      circle.setText('');
-    } else {
-      circle.setText(value);
-    }
-
-  }
-});
-bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
-bar.text.style.fontSize = '2rem';
-
-bar.animate(1.0);  // Number from 0.0 to 1.0
+var updateScreen = function() {
+  $("#mo-breakTime").html(breakLength)
+  $("#mo-timeStart").html(activityLength)
+  //bar.circle.setText(timeLeft)
+  //bar.setInterval(1-(timeLeft/((activityLength*60))))  // Number from 0.0 to 1.0
+}
