@@ -38,6 +38,16 @@ Display time
 Count down time
 Reset clock
 Start/Pause clock
+
+TO RUN:
+Open terminal
+loadnvm
+http-server in tomato directory
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222
+Browse to localhost:8080
+Run app in code (Attach to Chrome)
+Refresh in browser
+
 */  
 var activityLength = 25
 var breakLength = 5
@@ -45,48 +55,74 @@ var timeLeft = 0
 
 
 $(document).ready(function() {
-
+  $("#mo-start").html("Start")
   updateScreen()
+
   document.getElementById("mo-breakUp").addEventListener("click",breakUp);// addeventlistener
   document.getElementById("mo-breakDown").addEventListener("click",breakDown  );// addeventlistener  
   document.getElementById("mo-reset").addEventListener("click",reset);// addeventlistener
+  document.getElementById("mo-start").addEventListener("click",start);// addeventlistener
   document.getElementById("mo-remaining").addEventListener("click",remaining  );// addeventlistener  
   document.getElementById("mo-timeUp").addEventListener("click",timeUp);// addeventlistener
   document.getElementById("mo-timeDown").addEventListener("click",timeDown  );// addeventlistener  
+  setInterval(doTimer,1000)
   addLog("Document Ready")
   
   
 })
 
-var breakUp=function() {
+var doTimer=function() {
+  if( $("#mo-start").html=="Stop"){
+    if (timeLeft>0) {
+      timeLeft-=1
+    updateScreen()  
+  }
+}
+}
 
+var breakUp=function() {
+  breakLength += 1
+  updateScreen()
 }
 
 var breakDown=function() {
-  
+  breakLength -=1
+  updateScreen()
 }
 
 var timeUp=function() {
-  
+  activityLength +=1
+  reset()
 }
 
 var timeDown=function() {
-  
+  activityLength -=1
+  reset()
 }
 
 var remaining=function() {
   
 }
 
+var start=function() {
+  if  ( $("#mo-start").html=="Start") {
+    $("#mo-start").html("Stop")
+  } else if (  $("#mo-start").html=="Stop") {
+    $("#mo-start").html("Start")
+  }
+
+}
+
 var reset=function() {
-  
+  timeLeft = activityLength*60
+  updateScreen()
 }
 
 
 var updateScreen = function() {
-  $(".mo-breakTime").html(breakLength)
-  $(".mo-timeStart").html(activityLength)
-  $(".mo-remaining").html(timeLeft)
+  $("#mo-breakTime").html(breakLength)
+  $("#mo-timeStart").html(activityLength)
+  $("#mo-remaining").html(timeLeft)
 }
 
 var addLog = function(msg) {
@@ -95,7 +131,7 @@ var addLog = function(msg) {
 }
 
 
-var bar = new ProgressBar.Circle(container, {
+var bar = new ProgressBar.Circle('#circlecont', {
   color: '#aaa',
   // This has to be the same size as the maximum width to
   // prevent clipping
