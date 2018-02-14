@@ -1,0 +1,58 @@
+
+
+body
+{
+    padding-top:60px; 
+}
+
+
+.mo-pagetext
+{
+    font-family: Courier New, Courier, monospace;
+    text-align: center;
+    
+}
+.mo-portdescrip
+{
+    font-family: 'Times New Roman', Times, serif;
+}
+.mo-brand
+{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+
+.mo-header
+{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 40px;
+    padding-top:100px;
+    margin-top: -100px;
+    text-align: center;
+}
+
+.mo-container
+{
+    box-shadow: 2px 2px 2px 2px;
+    padding:15px 15px 14px 15px;
+    margin: 15px;
+
+}
+
+.mo-round
+{
+    border-radius: 10%;
+    margin-top: 10px;
+}
+
+.social [class*="fa fa-"] {
+    background-color: #333;
+    border-radius: 30px;
+    color: #fff;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    margin: auto 3px;
+    width: 30px;
+    font-size: 15px;
+    text-align: center;
+}

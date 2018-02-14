@@ -1,0 +1,56 @@
+.mo-text {
+  font-family:"Bree Serif",serif;
+}
+
+.mo-button {
+  font-size:20px;
+  margin-left:20px;
+  margin-bottom:21px;
+ 
+}
+
+.container {
+  padding:10px 10px 10px 10px;
+
+}
+
+.row {
+  padding:20px;
+}
+
+.well {
+    box-shadow: 0 0 10px black;
+}
+
+.mo-frame {
+  font-size:20px;
+
+}
+.mo-credits {
+  font-size:15px;
+}
+
+.mo-title {
+  font-size:30px;
+}
+
+.mo-quote {
+  font-size:22px;
+}
+.mo-attribution {
+  margin-top:10px;
+  font-size:18px;
+}
+
+.btn-circle {
+  border-radius:50%;
+  height:40px;
+  width:40px;
+}
+
+.mo-color {
+    background: #ffffff;
+    transition: background 0.2s linear;
+    -webkit-transition: background 0.2s linear;
+    -moz-transition: background 0.2s linear;
+}

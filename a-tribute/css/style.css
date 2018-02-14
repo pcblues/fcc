@@ -1,0 +1,51 @@
+h1, h3
+{
+   color: #000;
+   font-family: 'Permanent Marker', cursive;
+ }
+
+p, #Quote
+{
+   color: #000;
+   font-family: 'Yrsa', serif;
+  font-size: 20px;
+
+ }
+
+
+h1, h3, h4
+{
+  padding:20px;
+
+}
+
+p {
+  padding:10px;
+}
+
+#Quote
+{
+  padding:40px 20px 20px 20px;
+  font-size:35px;
+}
+
+#ReadMore
+{
+  font-size:25px;
+  
+}
+
+.container 
+{
+    margin-top: 50px;
+    margin-bottom: 100px;
+    box-shadow: 0 0 30px black;
+    padding:0 15px 0 15px;
+  
+}
+
+.timeline
+{
+    box-shadow: 0 0 2px black;
+    padding:0 30px 10px 30px;  
+}

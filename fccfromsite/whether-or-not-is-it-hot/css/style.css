@@ -1,0 +1,45 @@
+.mo-box
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px black;
+    padding:0 15px 0 15px;
+
+}
+  
+.mo-title 
+  {
+    font-family:  sans-serif;
+    font-size: 25px;
+    padding:0 15px 10px 15px;
+
+  }
+
+  .mo-icon
+  {
+    background-size: 100px;
+    background-repeat: no-repeat;
+     background-position: center;
+     min-height:100px
+
+  }
+  .mo-weather 
+  {
+    font-family:  sans-serif;
+    font-size: 20px;
+  }
+
+  .mo-gotgeo
+  {
+    font-family:  sans-serif;
+    font-size: 10px;
+
+  }
+
+.mo-credit
+  {
+    font-family:  sans-serif;
+    font-size: 10px;
+
+  }
+
