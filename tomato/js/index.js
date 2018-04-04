@@ -35,7 +35,7 @@ Reset clock
 Start/Pause clock
 
 TO RUN:
-WINDOWS
+
 
 MACOS
 Open terminal
