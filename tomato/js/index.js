@@ -157,6 +157,7 @@ var addLog = function(msg) {
 var updateScreen = function() {
   $("#mo-breakTime").html(breakLength)
   $("#mo-timeStart").html(activityLength)
-  //bar.circle.setText(timeLeft)
-  //bar.setInterval(1-(timeLeft/((activityLength*60))))  // Number from 0.0 to 1.0
+  bar.circle.setText(timeLeft)
+  bar.setInterval(1-(timeLeft/((activityLength*60))))  
+  // Number from 0.0 to 1.0
 }
