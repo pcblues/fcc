@@ -35,7 +35,8 @@ Reset clock
 Start/Pause clock
 
 TO RUN:
-
+http-server
+Launch Chrome
 
 MACOS
 Open terminal
@@ -50,6 +51,7 @@ Refresh in browser
 var activityLength = 25
 var breakLength = 5
 var timeLeft = 0
+
 
 var bar = new ProgressBar.Circle('#circlecont', {
   color: '#aaa',
