@@ -1,12 +1,6 @@
 /* Tomato
 
 TODO:
-Develop in Windows
-
-Display activity length
-Set activity length
-Display break length
-Set break length
 Display time
 Count down time
 Reset clock
@@ -14,6 +8,11 @@ Start/Pause clock
 
 
 DONE:
+Display activity length
+Set activity length
+Display break length
+Set break length
+Develop in Windows
 
 OBJECTIVE: Build a CodePen.io app that is functionally similar to this: https://codepen.io/FreeCodeCamp/full/aNyxXR/.
 Fulfill the below user stories. Use whichever libraries or APIs you need. Give it your own personal style.
@@ -50,41 +49,64 @@ Refresh in browser
 */  
 var activityLength = 25
 var breakLength = 5
-var timeLeft = 0
-
+var breaking = 0
+var running = 0
+var timeLeft =activityLength*60
+var startText = "Start"
+var stopText = "Stop"
 
 var bar = new ProgressBar.Circle('#circlecont', {
-  color: '#aaa',
+  color: '#fff',
   // This has to be the same size as the maximum width to
   // prevent clipping
   strokeWidth: 4,
-  trailWidth: 1,
+  trailWidth: 4,
   easing: 'easeInOut',
-  duration: 1400,
+  duration: 10,
   text: {
     autoStyleContainer: false
   },
-  from: { color: '#aaa', width: 1 },
-  to: { color: '#333', width: 4 },
+  from: { color: '#0a0', width: 4 },
+  to: { color: '#0a0', width: 4 },
   // Set default step function for all animate calls
   step: function(state, circle) {
     circle.path.setAttribute('stroke', state.color);
     circle.path.setAttribute('stroke-width', state.width);
 
-    var value = Math.round(circle.value() * 100);
-    if (value === 0) {
-      circle.setText('');
-    } else {
-      circle.setText(value);
+    //var value = Math.round(circle.value() * 100);
+    var addZero = ""
+    if (timeLeft % 60 <10 ) {addZero = "0" }else {addZero=""}
+    var addBreakStart = ""
+    var addBreakEnd = ""
+    if (breaking==1) {
+      addBreakStart = "["
+      addBreakEnd = "]" 
     }
+    value =addBreakStart+ Math.floor(timeLeft / 60) +":" +addZero+ timeLeft % 60 + addBreakEnd
+    if (running == 1)   {
+      if (timeLeft ===0) {
+        if (breaking === 0) {
+          breaking = 1
+          timeLeft = breakLength*60
+        } else {
+          breaking = 0
+          timeLeft = activityLength*60
+        }
+      }
+      circle.setText(value);        
+    } else {
+      circle.setText(startText);
+    }
+    
 
   }
 })
+
 bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif'
 bar.text.style.fontSize = '2rem'
 
 $(document).ready(function() {
-  $("#mo-start").html("Start")
+  $("#mo-start").html(startText)
   updateScreen()
 
   document.getElementById("mo-breakUp").addEventListener("click",breakUp);// addeventlistener
@@ -100,12 +122,10 @@ $(document).ready(function() {
 })
 
 var doTimer=function() {
-  if( $("#mo-start").html=="Stop"){
-    if (timeLeft>0) {
+    if ((timeLeft>0) && (running==1 )) {
       timeLeft-=1
     updateScreen()  
   }
-}
 }
 
 var breakUp=function() {
@@ -114,8 +134,11 @@ var breakUp=function() {
 }
 
 var breakDown=function() {
-  breakLength -=1
-  updateScreen()
+  if (breakLength>1) {
+    breakLength -=1
+    updateScreen()  
+  }
+
 }
 
 var timeUp=function() {
@@ -124,19 +147,21 @@ var timeUp=function() {
 }
 
 var timeDown=function() {
-  activityLength -=1
-  reset()
-}
-
-var remaining=function() {
+  if (activityLength>1) {
+    activityLength -=1
+    reset()
   
+  }
 }
 
 var start=function() {
-  if  ( $("#mo-start").html=="Start") {
-    $("#mo-start").html("Stop")
-  } else if (  $("#mo-start").html=="Stop") {
-    $("#mo-start").html("Start")
+  addLog($("#mo-start").html())
+  if (running ===0) {
+    running = 1
+    $("#mo-start").html(stopText)
+  } else {
+    running = 0
+    $("#mo-start").html(startText)
   }
 
 }
@@ -157,7 +182,10 @@ var addLog = function(msg) {
 var updateScreen = function() {
   $("#mo-breakTime").html(breakLength)
   $("#mo-timeStart").html(activityLength)
-  bar.circle.setText(timeLeft)
-  bar.setInterval(1-(timeLeft/((activityLength*60))))  
-  // Number from 0.0 to 1.0
+  if (breaking==0)
+  {
+    window.bar.animate(timeLeft/(activityLength*60))
+  } else {
+    window.bar.animate(timeLeft/(breakLength*60))
+  }
 }
