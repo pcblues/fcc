@@ -46,16 +46,18 @@ var PLAYERSPECIES = Object.freeze(
  COMPUTER= {txt:"Computer"})
  
  var GAMESTATE = Object.freeze(
-  PLAYERS={txt:"Choose Number of Players"},
-  SIDE = {txt:"Choose X or O"},
-  P1TURN={txt:"Player 1 Turn"},
-  P2TURN={txt:"Player 2 Turn"},
-  GAMEOVER={txt:"Game Over!"}
+  PLAYERS={txt:"Choose Number of Players",fname:"showPlayers"},
+  SIDE = {txt:"Choose X or O",fname:"showSide"},
+  P1TURN={txt:"Player 1 Turn",fname:"showP1Turn"},
+  P2TURN={txt:"Player 2 Turn",fname:"showP2Turn"},
+  GAMEOVER={txt:"Game Over!", fname:"showGameOver"}
 )
  
+var gameState = GAMESTATE.PLAYERS
 var board = [[0,0,0],[0,0,0],[0,0,0]];
 var xPiece = 1;
 var oPiece = 2;
+
 
 var player1Score=0
 var player2Score=0
@@ -68,6 +70,25 @@ var HINTS = Object.freeze(
     {"Player 2 has won!":4}  
 )
 */
+
+// Why are state machines bad?
+var nextState=function(gState) {
+  if (gState==GAMESTATE.PLAYERS) {
+    return(GAMESTATE.SIDE)
+  } else if (gState==GAMESTATE.SIDE) {
+    return GAMESTATE.P1TURN
+  } else if (gState==GAMESTATE.P1TURN) {
+    if (checkGameOver()==true) {
+      return GAMESTATE.GAMEOVER
+    } else {return P2TURN}
+  } else if (gstate===GAMESTATE.P2TURN) {
+    if (checkGameOver()==true) {
+      return GAMESTATE.GAMEOVER
+    } else {return GAMESTATE.P1TURN}
+  } else if (gstate==GAMESTATE.GAMEOVER) {
+    return GAMESTATE.PLAYERS
+  }
+}
 
 var nextMove=function () {
   var move = '11';
@@ -83,15 +104,34 @@ var nextMove=function () {
   // cannot choose taken spot 
 }
 
-var getXorO= function() {
-
-}
-
 $(document).ready(function() {
   addLog("Document Ready")
-  getXorO()
-
+  document.getElementById("mo-11").addEventListener("click",processSpace)
+  document.getElementById("mo-12").addEventListener("click",processSpace)
+  document.getElementById("mo-13").addEventListener("click",processSpace)
+  document.getElementById("mo-21").addEventListener("click",processSpace)
+  document.getElementById("mo-22").addEventListener("click",processSpace)
+  document.getElementById("mo-23").addEventListener("click",processSpace)
+  document.getElementById("mo-31").addEventListener("click",processSpace)
+  document.getElementById("mo-32").addEventListener("click",processSpace)
+  document.getElementById("mo-33").addEventListener("click",processSpace)
+  document.getElementById("mo-restart").addEventListener("click",processRestart)
+  document.getElementById("mo-1p").addEventListener("click",processPlayer)
+  document.getElementById("mo-2p").addEventListener("click",processPlayer)  
+  document.getElementById("mo-X").addEventListener("click",processSide)
+  document.getElementById("mo-O").addEventListener("click",processSide)  
+  doTurn(windows.gameState) 
 })
+
+var doTurn=function(gState) {
+    addLog(gState.txt)
+    // set up visibility of appropriate elements
+    window[gState.fname]
+}
+
+var getInput=function() {
+
+}
 
 var addLog = function(msg) {
   $(".mo-log").append(msg+"<BR>")
