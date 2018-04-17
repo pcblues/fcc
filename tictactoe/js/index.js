@@ -42,15 +42,15 @@ DONE:
 
 */  
 var PLAYERSPECIES = Object.freeze(
-  HUMAN ={txt:"Human"},
- COMPUTER= {txt:"Computer"})
+  {HUMAN :{txt:"Human"},
+ COMPUTER: {txt:"Computer"}})
  
- var GAMESTATE = Object.freeze(
-  PLAYERS={txt:"Choose Number of Players",fname:"showPlayers"},
-  SIDE = {txt:"Choose X or O",fname:"showSide"},
-  P1TURN={txt:"Player 1 Turn",fname:"showP1Turn"},
-  P2TURN={txt:"Player 2 Turn",fname:"showP2Turn"},
-  GAMEOVER={txt:"Game Over!", fname:"showGameOver"}
+ var GAMESTATE = Object.freeze({
+  PLAYERS:{txt:"Choose Number of Players",fname:"showPlayers"},
+  SIDE : {txt:"Choose X or O",fname:"showSide"},
+  P1TURN:{txt:"Player 1 Turn",fname:"showP1Turn"},
+  P2TURN:{txt:"Player 2 Turn",fname:"showP2Turn"},
+  GAMEOVER:{txt:"Game Over!", fname:"showGameOver"}}
 )
  
 var gameState = GAMESTATE.PLAYERS
@@ -106,6 +106,8 @@ var nextMove=function () {
 
 $(document).ready(function() {
   addLog("Document Ready")
+  
+
   document.getElementById("mo-11").addEventListener("click",processSpace)
   document.getElementById("mo-12").addEventListener("click",processSpace)
   document.getElementById("mo-13").addEventListener("click",processSpace)
@@ -124,10 +126,12 @@ $(document).ready(function() {
 })
 
 var doTurn=function(gState) {
-    addLog(gState.txt)
+    showMessage(gState.txt)
     // set up visibility of appropriate elements
     window[gState.fname]
 }
+
+
 
   var showPlayers = function() {
 
@@ -168,7 +172,11 @@ var getInput=function() {
 }
 
 var addLog = function(msg) {
-  $(".mo-log").append(msg+"<BR>")
+  //$(".mo-log").append(msg+"<BR>")
   console.log(msg)
+}
+
+var showMessage=function(msg) {
+  $(".mo-message").html(msg)  
 }
 
