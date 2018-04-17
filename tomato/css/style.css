@@ -6,7 +6,7 @@
 body
 {
   background-color: black;
-  background: url(../art/tomato.jpg) no-repeat center ;
+  background: url(../art/tomato.jpg) no-repeat top center ;
   /* no-repeat center center fixed; */
   background-size: 500px;
   

@@ -5,6 +5,9 @@ run chrome on test port
 refresh
 
 TODO:
+Draw board
+Reset game
+Choose 1 or 2 players
 Choose X or O
 Graphic of game
 Graphic of board
@@ -13,6 +16,7 @@ Scoreboard
 Indicator of whose turn?
 Choose next turn
 Game result message
+Font
 
 DONE:
 
@@ -37,9 +41,33 @@ You can get feedback on your project by sharing it with your friends on Facebook
 DONE:
 
 */  
-var board = [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]];
+var PLAYERSPECIES = Object.freeze(
+  HUMAN ={txt:"Human"},
+ COMPUTER= {txt:"Computer"})
+ 
+ var GAMESTATE = Object.freeze(
+  PLAYERS={txt:"Choose Number of Players"},
+  SIDE = {txt:"Choose X or O"},
+  P1TURN={txt:"Player 1 Turn"},
+  P2TURN={txt:"Player 2 Turn"},
+  GAMEOVER={txt:"Game Over!"}
+)
+ 
+var board = [[0,0,0],[0,0,0],[0,0,0]];
 var xPiece = 1;
-var oPiece = 0;
+var oPiece = 2;
+
+var player1Score=0
+var player2Score=0
+
+/*
+var HINTS = Object.freeze(
+  {"Player 1 is going to win!":1},
+  {"Player 2 is going to win!":2},
+    {"Player 1 has won!":3},
+    {"Player 2 has won!":4}  
+)
+*/
 
 var nextMove=function () {
   var move = '11';
@@ -48,7 +76,7 @@ var nextMove=function () {
     // for each spot
       // check if adjacent with free space further
   //  block 2 threat
-    // pick cornermaai
+    // pick corner
   //  check for pincer
   //  build threat
   //  take middle then corners then side
@@ -66,7 +94,7 @@ $(document).ready(function() {
 })
 
 var addLog = function(msg) {
-  //$(".mo-log").append(msg+"<BR>")
+  $(".mo-log").append(msg+"<BR>")
   console.log(msg)
 }
 
