@@ -116,17 +116,51 @@ $(document).ready(function() {
   document.getElementById("mo-32").addEventListener("click",processSpace)
   document.getElementById("mo-33").addEventListener("click",processSpace)
   document.getElementById("mo-restart").addEventListener("click",processRestart)
-  document.getElementById("mo-1p").addEventListener("click",processPlayer)
-  document.getElementById("mo-2p").addEventListener("click",processPlayer)  
+  document.getElementById("mo-1P").addEventListener("click",processPlayer)
+  document.getElementById("mo-2P").addEventListener("click",processPlayer)  
   document.getElementById("mo-X").addEventListener("click",processSide)
   document.getElementById("mo-O").addEventListener("click",processSide)  
-  doTurn(windows.gameState) 
+  doTurn(window.gameState) 
 })
 
 var doTurn=function(gState) {
     addLog(gState.txt)
     // set up visibility of appropriate elements
     window[gState.fname]
+}
+
+  var showPlayers = function() {
+
+  }
+  var showSide = function() {
+
+  }
+  var showP1Turn = function() {
+
+  }
+  var showP2Turn = function() {
+
+  }
+  var showGameOver = function() {
+
+  }
+
+
+var processSpace=function(event){
+
+}
+
+var processRestart = function(event) {
+
+}
+
+var processPlayer = function(event) {
+
+}
+
+var processSide = function(event) {
+
+
 }
 
 var getInput=function() {
