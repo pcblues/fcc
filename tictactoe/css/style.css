@@ -3,10 +3,26 @@
     margin-top: 10px;
     margin-bottom: 10px;
     box-shadow: 0 0 10px black;
-    padding:0 15px 0 15px;
+    padding:0 0px 0 0px;
 
 }
   
+.mo-butt
+{
+height:50px;
+width:150px;
+}
+
+.mo-space
+{
+  height:100px;
+  width:100px;
+}
+
+.mo-grid 
+{
+grid-row-gap: 0px;
+}
 .mo-title 
   {
     font-family:  sans-serif;
@@ -27,19 +43,7 @@
      min-height:100px
 
   }
-  .mo-weather 
-  {
-    font-family:  sans-serif;
-    font-size: 20px;
-  }
-
-  .mo-gotgeo
-  {
-    font-family:  sans-serif;
-    font-size: 10px;
-
-  }
-
+ 
 .mo-credit
   {
     font-family:  sans-serif;
@@ -48,14 +52,3 @@
   }
 
 
-#searchClear {
-    position: absolute;
-    right: 5px;
-    top: 0;
-    bottom: 0;
-    height: 14px;
-    margin: auto;
-    font-size: 14px;
-    cursor: pointer;
-    color: #ccc;
-}
