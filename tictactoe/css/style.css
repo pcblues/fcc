@@ -36,6 +36,9 @@ width:150px;
 .mo-grid 
 {
 margin:auto;
+max-width: 390px;
+  
+
 }
 
 .mo-title 
