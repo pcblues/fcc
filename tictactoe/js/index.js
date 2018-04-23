@@ -47,7 +47,7 @@ var PLAYERSPECIES = Object.freeze(
  
  var GAMESTATE = Object.freeze({
   PLAYERS:{txt:"Choose Number of Players",fname:"showPlayers"},
-  SIDE : {txt:"Choose X or O",fname:"showSide"},
+  SIDE : {txt:"Choose O or X",fname:"showSide"},
   P1TURN:{txt:"Player 1 Turn",fname:"showP1Turn"},
   P2TURN:{txt:"Player 2 Turn",fname:"showP2Turn"},
   GAMEOVER:{txt:"Game Over!", fname:"showGameOver"}}
@@ -58,10 +58,15 @@ var board = [[0,0,0],[0,0,0],[0,0,0]];
 var xPiece = 1;
 var oPiece = 2;
 
-
+var numPlayers = 1
 var player1Score=0
 var player2Score=0
 
+var player1Side = 0
+var player2Side = 0
+
+var player1Species = 0
+var player2Species = 0
 /*
 var HINTS = Object.freeze(
   {"Player 1 is going to win!":1},
@@ -105,7 +110,6 @@ var nextMove=function () {
 }
 
 $(document).ready(function() {
-  addLog("Document Ready")
   
 
   document.getElementById("mo-11").addEventListener("click",processSpace)
@@ -123,53 +127,103 @@ $(document).ready(function() {
   document.getElementById("mo-X").addEventListener("click",processSide)
   document.getElementById("mo-O").addEventListener("click",processSide)  
   doTurn(window.gameState) 
+  addLog("Document Ready")
 })
 
-var doTurn=function(gState) {
-    showMessage(gState.txt)
+var doTurn=function() {
+    showMessage(window.gameState.txt)
     // set up visibility of appropriate elements
-    window[gState.fname]
+    var fname = window.gameState.fname
+    window[window.gameState.fname]()
 }
 
 
 
   var showPlayers = function() {
-
+    $("#mo-restart").hide();
+    $("#mo-1P").show();
+    $("#mo-2P").show();
+    $("#mo-X").hide();
+    $("#mo-O").hide();
   }
   var showSide = function() {
+    $("#mo-restart").hide();
+    $("#mo-1P").hide();
+    $("#mo-2P").hide();
+    $("#mo-X").show();
+    $("#mo-O").show();
 
   }
   var showP1Turn = function() {
+    $("#mo-restart").show();
+    $("#mo-1P").hide();
+    $("#mo-2P").hide();
+    $("#mo-X").hide();
+    $("#mo-O").hide();
 
   }
   var showP2Turn = function() {
+    $("#mo-restart").show();
+    $("#mo-1P").hide();
+    $("#mo-2P").hide();
+    $("#mo-X").hide();
+    $("#mo-O").hide();
 
   }
   var showGameOver = function() {
+    $("#mo-restart").show();
+    $("#mo-1P").hide();
+    $("#mo-2P").hide();
+    $("#mo-X").hide();
+    $("#mo-O").hide();
 
   }
 
 
 var processSpace=function(event){
-
+  if (window.gameState==GAMESTATE.P1TURN) {
+    event.target.innerHTML(window.player1Side)
+    window.gameState = GAMESTATE.P2TURN
+  } else if (window.gameState==GAMESTATE.P2TURN){
+    event.target.innerHTML(window.player2Side)
+    window.gameState = GAMESTATE.P1TURN
+  }
+  doTurn()
 }
 
 var processRestart = function(event) {
-
+  window.gameState = GAMESTATE.PLAYERS
+  doTurn()
 }
 
 var processPlayer = function(event) {
+  if (event.target.id == "mo-1P") {
+    window.numPlayers=1
+    window.player1Species = PLAYERSPECIES.HUMAN
+    window.player2Species = PLAYERSPECIES.COMPUTER
+    
+  } else {
+    window.numPlayers=2
+    window.player1Species = PLAYERSPECIES.HUMAN
+    window.player2Species = PLAYERSPECIES.HUMAN
+  }
+  window.gameState = GAMESTATE.SIDE
+  doTurn()
 
 }
 
 var processSide = function(event) {
-
-
+  if (event.target.id == "mo-X") {
+    window.player1Side = window.xPiece
+    window.player2Side = window.oPiece
+  } else {
+    window.player1Side = window.oPiece
+    window.player2Side = window.xPiece    
+  }
+  window.gameState = GAMESTATE.P1TURN
+  doTurn()
 }
 
-var getInput=function() {
-
-}
 
 var addLog = function(msg) {
   //$(".mo-log").append(msg+"<BR>")
