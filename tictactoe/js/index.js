@@ -47,7 +47,7 @@ var PLAYERSPECIES = Object.freeze(
  
  var GAMESTATE = Object.freeze({
   PLAYERS:{txt:"Choose Number of Players",fname:"showPlayers"},
-  SIDE : {txt:"Choose O or X",fname:"showSide"},
+  SIDE : {txt:"Choose Side",fname:"showSide"},
   P1TURN:{txt:"Player 1 Turn",fname:"showP1Turn"},
   P2TURN:{txt:"Player 2 Turn",fname:"showP2Turn"},
   GAMEOVER:{txt:"Game Over!", fname:"showGameOver"}}
@@ -55,8 +55,8 @@ var PLAYERSPECIES = Object.freeze(
  
 var gameState = GAMESTATE.PLAYERS
 var board = [[0,0,0],[0,0,0],[0,0,0]];
-var xPiece = 1;
-var oPiece = 2;
+var xPiece = "art/x.png"
+var oPiece = "art/o.png"
 
 var numPlayers = 1
 var player1Score=0
@@ -125,7 +125,10 @@ $(document).ready(function() {
   document.getElementById("mo-1P").addEventListener("click",processPlayer)
   document.getElementById("mo-2P").addEventListener("click",processPlayer)  
   document.getElementById("mo-X").addEventListener("click",processSide)
-  document.getElementById("mo-O").addEventListener("click",processSide)  
+  document.getElementById("mo-O").addEventListener("click",processSide)
+  document.getElementById("mo-lines").addEventListener("click",processClick)
+
+
   doTurn(window.gameState) 
   addLog("Document Ready")
 })
@@ -180,19 +183,44 @@ var doTurn=function() {
   }
 
 
+
 var processSpace=function(event){
-  if (window.gameState==GAMESTATE.P1TURN) {
-    event.target.innerHTML(window.player1Side)
-    window.gameState = GAMESTATE.P2TURN
-  } else if (window.gameState==GAMESTATE.P2TURN){
-    event.target.innerHTML(window.player2Side)
-    window.gameState = GAMESTATE.P1TURN
+  var butt = document.getElementById(event.target.id)
+  if (butt.src.indexOf("blank.png")!==-1) {
+    if (window.gameState==GAMESTATE.P1TURN) {
+      butt.src=window.player1Side
+      window.gameState = GAMESTATE.P2TURN
+    } else if (window.gameState==GAMESTATE.P2TURN){
+      butt.src=window.player2Side
+      window.gameState = GAMESTATE.P1TURN
+    }
+    doTurn()
+      
   }
-  doTurn()
+}
+
+var processClick=function(event)
+{
+  var imge = document.getElementById(event.target.id)
+  addLog(imge.id)
+  imge.hidden=true
+  var undr = document.elementFromPoint(event.clientX, event.clientY)
+  undr.click()
+  imge.hidden = false
+  addLog(undr.id)
 }
 
 var processRestart = function(event) {
   window.gameState = GAMESTATE.PLAYERS
+  document.getElementById("mo-11").src="art/blank.png"
+  document.getElementById("mo-12").src="art/blank.png"
+  document.getElementById("mo-13").src="art/blank.png"
+  document.getElementById("mo-21").src="art/blank.png"
+  document.getElementById("mo-22").src="art/blank.png"
+  document.getElementById("mo-23").src="art/blank.png"
+  document.getElementById("mo-31").src="art/blank.png"
+  document.getElementById("mo-32").src="art/blank.png"
+  document.getElementById("mo-33").src="art/blank.png"
   doTurn()
 }
 

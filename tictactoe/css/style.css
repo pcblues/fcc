@@ -19,6 +19,19 @@ width:150px;
   width:150px;
 }
 
+.mo-parent
+{
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.mo-foreground {
+  position: absolute;
+  top: 10px;
+  left: -25px;
+}
+
 .mo-col
 {
   /*
@@ -44,9 +57,10 @@ max-width: 390px;
 .mo-title 
   {
     font-family:  sans-serif;
-    font-size: 20px;
+    font-size: 40px;
+    /*
     padding:10px 15px 10px 15px;
-
+    */
   }
 
   .mo-logo
