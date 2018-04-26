@@ -57,6 +57,7 @@ var gameState = GAMESTATE.PLAYERS
 var board = [[0,0,0],[0,0,0],[0,0,0]];
 var xPiece = "art/x.png"
 var oPiece = "art/o.png"
+var noPiece = "art/blank.png"
 
 var numPlayers = 1
 var player1Score=0
@@ -128,7 +129,6 @@ $(document).ready(function() {
   document.getElementById("mo-O").addEventListener("click",processSide)
   document.getElementById("mo-lines").addEventListener("click",processClick)
 
-
   doTurn(window.gameState) 
   addLog("Document Ready")
 })
@@ -139,7 +139,6 @@ var doTurn=function() {
     var fname = window.gameState.fname
     window[window.gameState.fname]()
 }
-
 
 
   var showPlayers = function() {
@@ -186,7 +185,7 @@ var doTurn=function() {
 
 var processSpace=function(event){
   var butt = document.getElementById(event.target.id)
-  if (butt.src.indexOf("blank.png")!==-1) {
+  if (butt.src.indexOf(noPiece)!==-1) {
     if (window.gameState==GAMESTATE.P1TURN) {
       butt.src=window.player1Side
       window.gameState = GAMESTATE.P2TURN
@@ -194,8 +193,68 @@ var processSpace=function(event){
       butt.src=window.player2Side
       window.gameState = GAMESTATE.P1TURN
     }
+    checkForVictory()
     doTurn()
       
+  }
+}
+
+var checkForVictory=function() {
+  // find three in a row
+  if (checkPlayerWon(window.player1Side)) {
+    processPlayerWin(1)
+  }
+  if (checkPlayerWon(window.player2Side)) {
+    processPlayerWin(2)
+  }
+  
+}
+
+var checkPlayerWon=function(player){
+  var won = false
+  m11=document.getElementById("mo-11")
+  m12=document.getElementById("mo-12")
+  m13=document.getElementById("mo-13")
+  m21=document.getElementById("mo-21")
+  m22=document.getElementById("mo-22")
+  m23=document.getElementById("mo-23")
+  m13=document.getElementById("mo-31")
+  m23=document.getElementById("mo-32")
+  m33=document.getElementById("mo-33")
+  if ((isPiece(m11,player) && 
+      isPiece(m12,player) && 
+      isPiece(m13,player)) ||
+      (isPiece(m21,player) && 
+      isPiece(m22,player) && 
+      isPiece(m23,player)) ||
+      (isPiece(m31,player) && 
+      isPiece(m32,player) && 
+      isPiece(m33,player)) ||
+      (isPiece(m11,player) && 
+      isPiece(m21,player) && 
+      isPiece(m31,player)) ||
+      (isPiece(m12,player) && 
+      isPiece(m22,player) && 
+      isPiece(m32,player)) ||
+      (isPiece(m13,player) && 
+      isPiece(m23,player) && 
+      isPiece(m33,player)) ||
+      (isPiece(m11,player) && 
+      isPiece(m22,player) && 
+      isPiece(m33,player)) ||
+      (isPiece(m13,player) && 
+      isPiece(m22,player) && 
+      isPiece(m31,player))) {
+        won = true
+      }
+    return won
+    } 
+
+var isPiece=function(space,piece) {
+  if (space.src.indexOf(piece)!==-1) {
+    return true
+  } else {
+    return false
   }
 }
 
@@ -212,15 +271,15 @@ var processClick=function(event)
 
 var processRestart = function(event) {
   window.gameState = GAMESTATE.PLAYERS
-  document.getElementById("mo-11").src="art/blank.png"
-  document.getElementById("mo-12").src="art/blank.png"
-  document.getElementById("mo-13").src="art/blank.png"
-  document.getElementById("mo-21").src="art/blank.png"
-  document.getElementById("mo-22").src="art/blank.png"
-  document.getElementById("mo-23").src="art/blank.png"
-  document.getElementById("mo-31").src="art/blank.png"
-  document.getElementById("mo-32").src="art/blank.png"
-  document.getElementById("mo-33").src="art/blank.png"
+  document.getElementById("mo-11").src=noPiece
+  document.getElementById("mo-12").src=noPiece
+  document.getElementById("mo-13").src=noPiece
+  document.getElementById("mo-21").src=noPiece
+  document.getElementById("mo-22").src=noPiece
+  document.getElementById("mo-23").src=noPiece
+  document.getElementById("mo-31").src=noPiece
+  document.getElementById("mo-32").src=noPiece
+  document.getElementById("mo-33").src=noPiece
   doTurn()
 }
 
