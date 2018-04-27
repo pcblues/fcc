@@ -50,7 +50,9 @@ var PLAYERSPECIES = Object.freeze(
   SIDE : {txt:"Choose Side",fname:"showSide"},
   P1TURN:{txt:"Player 1 Turn",fname:"showP1Turn"},
   P2TURN:{txt:"Player 2 Turn",fname:"showP2Turn"},
-  GAMEOVER:{txt:"Game Over!", fname:"showGameOver"}}
+  GAMEOVER:{txt:"Game Over!", fname:"showGameOver"},
+  PLAYER1WINS:{txt:"Player 1 Wins!", fname:"showGameOver"},
+  PLAYER2WINS:{txt:"Player 2 Wins!", fname:"showGameOver"}}
 )
  
 var gameState = GAMESTATE.PLAYERS
@@ -128,18 +130,22 @@ $(document).ready(function() {
   document.getElementById("mo-X").addEventListener("click",processSide)
   document.getElementById("mo-O").addEventListener("click",processSide)
   document.getElementById("mo-lines").addEventListener("click",processClick)
-
+  showScores()
   doTurn(window.gameState) 
   addLog("Document Ready")
 })
 
 var doTurn=function() {
     showMessage(window.gameState.txt)
+    showScores()
     // set up visibility of appropriate elements
     var fname = window.gameState.fname
     window[window.gameState.fname]()
 }
 
+var showScores=function() {
+  $(".mo-scores").html("<b>Scores</b> &nbsp;&nbsp;&nbsp;&nbsp;  Player 1:  "+window.player1Score+" &nbsp;&nbsp;&nbsp;&nbsp;   Player 2:  "+window.player2Score)
+}
 
   var showPlayers = function() {
     $("#mo-restart").hide();
@@ -183,6 +189,7 @@ var doTurn=function() {
 
 
 
+
 var processSpace=function(event){
   var butt = document.getElementById(event.target.id)
   if (butt.src.indexOf(noPiece)!==-1) {
@@ -201,14 +208,55 @@ var processSpace=function(event){
 
 var checkForVictory=function() {
   // find three in a row
-  if (checkPlayerWon(window.player1Side)) {
+  if (checkPlayerWon(window.player1Side)==true) {
     processPlayerWin(1)
+    window.gameState=GAMESTATE.PLAYER1WINS
   }
-  if (checkPlayerWon(window.player2Side)) {
+  if (checkPlayerWon(window.player2Side)==true) {
     processPlayerWin(2)
+    window.gameState=GAMESTATE.PLAYER2WINS
+  }
+  if (checkNoWinner()==true) {
+    window.gameState = GAMESTATE.GAMEOVER
   }
   
 }
+
+var checkNoWinner=function() {
+  var gameOver = false
+  m11=document.getElementById("mo-11")
+  m12=document.getElementById("mo-12")
+  m13=document.getElementById("mo-13")
+  m21=document.getElementById("mo-21")
+  m22=document.getElementById("mo-22")
+  m23=document.getElementById("mo-23")
+  m31=document.getElementById("mo-31")
+  m32=document.getElementById("mo-32")
+  m33=document.getElementById("mo-33")
+  if (isPiece(m11,window.noPiece)==false && 
+      isPiece(m12,window.noPiece)==false && 
+      isPiece(m13,window.noPiece)==false &&
+      isPiece(m21,window.noPiece)==false && 
+      isPiece(m22,window.noPiece)==false && 
+      isPiece(m23,window.noPiece)==false &&
+      isPiece(m31,window.noPiece)==false && 
+      isPiece(m32,window.noPiece)==false && 
+      isPiece(m33,window.noPiece)==false) {
+    gameOver = true
+  }
+  return gameOver
+  
+}
+
+var processPlayerWin=function(player) {
+  if (player==1) {
+      window.player1Score +=1
+    } else {
+      window.player2Score +=1
+    }
+    showScores()
+}
+
 
 var checkPlayerWon=function(player){
   var won = false
@@ -218,33 +266,33 @@ var checkPlayerWon=function(player){
   m21=document.getElementById("mo-21")
   m22=document.getElementById("mo-22")
   m23=document.getElementById("mo-23")
-  m13=document.getElementById("mo-31")
-  m23=document.getElementById("mo-32")
+  m31=document.getElementById("mo-31")
+  m32=document.getElementById("mo-32")
   m33=document.getElementById("mo-33")
-  if ((isPiece(m11,player) && 
-      isPiece(m12,player) && 
-      isPiece(m13,player)) ||
-      (isPiece(m21,player) && 
-      isPiece(m22,player) && 
-      isPiece(m23,player)) ||
-      (isPiece(m31,player) && 
-      isPiece(m32,player) && 
-      isPiece(m33,player)) ||
-      (isPiece(m11,player) && 
-      isPiece(m21,player) && 
-      isPiece(m31,player)) ||
-      (isPiece(m12,player) && 
-      isPiece(m22,player) && 
-      isPiece(m32,player)) ||
-      (isPiece(m13,player) && 
-      isPiece(m23,player) && 
-      isPiece(m33,player)) ||
-      (isPiece(m11,player) && 
-      isPiece(m22,player) && 
-      isPiece(m33,player)) ||
-      (isPiece(m13,player) && 
-      isPiece(m22,player) && 
-      isPiece(m31,player))) {
+  if ((isPiece(m11,player)==true && 
+      isPiece(m12,player)==true && 
+      isPiece(m13,player)==true) ||
+      (isPiece(m21,player)==true && 
+      isPiece(m22,player)==true && 
+      isPiece(m23,player)==true) ||
+      (isPiece(m31,player)==true && 
+      isPiece(m32,player)==true && 
+      isPiece(m33,player)==true) ||
+      (isPiece(m11,player)==true && 
+      isPiece(m21,player)==true && 
+      isPiece(m31,player)==true) ||
+      (isPiece(m12,player)==true && 
+      isPiece(m22,player)==true && 
+      isPiece(m32,player)==true) ||
+      (isPiece(m13,player)==true && 
+      isPiece(m23,player)==true && 
+      isPiece(m33,player)==true) ||
+      (isPiece(m11,player)==true && 
+      isPiece(m22,player)==true && 
+      isPiece(m33,player)==true) ||
+      (isPiece(m13,player)==true && 
+      isPiece(m22,player)==true && 
+      isPiece(m31,player)==true)) {
         won = true
       }
     return won
