@@ -79,24 +79,6 @@ var HINTS = Object.freeze(
 )
 */
 
-// Why are state machines bad?
-var nextState=function(gState) {
-  if (gState==GAMESTATE.PLAYERS) {
-    return(GAMESTATE.SIDE)
-  } else if (gState==GAMESTATE.SIDE) {
-    return GAMESTATE.P1TURN
-  } else if (gState==GAMESTATE.P1TURN) {
-    if (checkGameOver()==true) {
-      return GAMESTATE.GAMEOVER
-    } else {return P2TURN}
-  } else if (gstate===GAMESTATE.P2TURN) {
-    if (checkGameOver()==true) {
-      return GAMESTATE.GAMEOVER
-    } else {return GAMESTATE.P1TURN}
-  } else if (gstate==GAMESTATE.GAMEOVER) {
-    return GAMESTATE.PLAYERS
-  }
-}
 
 
 $(document).ready(function() {
@@ -135,6 +117,7 @@ var doTurn=function() {
 }
 
 var doComputerMove=function () {
+  
   m11=document.getElementById("mo-11")
   m12=document.getElementById("mo-12")
   m13=document.getElementById("mo-13")
@@ -147,14 +130,173 @@ var doComputerMove=function () {
 
   space = m11
   // block possible losses
-    // for each spot
-      // check if adjacent with free space further
+  // for each spot
+  // check if adjacent with free space further
+  // row 1
+  if  ((isPiece(m11,window.player1Side)==true) &&
+      (isPiece(m12,window.player1Side)==true) &&
+      (isPiece(m13,window.noPiece)==true)) {
+        space=m13
+  } else
+  if  ((isPiece(m11,window.player1Side)==true) &&
+      (isPiece(m13,window.player1Side)==true) &&
+      (isPiece(m12,window.noPiece)==true)) {
+        space=m12
+  } else
+  if  ((isPiece(m12,window.player1Side)==true) &&
+      (isPiece(m13,window.player1Side)==true) &&
+      (isPiece(m11,window.noPiece)==true)) {
+        space=m11
+  } else
+  // row 2
+  if  ((isPiece(m21,window.player1Side)==true) &&
+      (isPiece(m22,window.player1Side)==true) &&
+      (isPiece(m23,window.noPiece)==true)) {
+        space=m23
+  } else
+  if  ((isPiece(m21,window.player1Side)==true) &&
+      (isPiece(m23,window.player1Side)==true) &&
+      (isPiece(m22,window.noPiece)==true)) {
+        space=m22
+  } else
+  if  ((isPiece(m22,window.player1Side)==true) &&
+      (isPiece(m23,window.player1Side)==true) &&
+      (isPiece(m21,window.noPiece)==true)) {
+        space=m21
+  } else
+  // row 3
+  if  ((isPiece(m31,window.player1Side)==true) &&
+      (isPiece(m32,window.player1Side)==true) &&
+      (isPiece(m33,window.noPiece)==true)) {
+        space=m33
+  } else
+  if  ((isPiece(m31,window.player1Side)==true) &&
+      (isPiece(m33,window.player1Side)==true) &&
+      (isPiece(m32,window.noPiece)==true)) {
+        space=m32
+  } else
+  if  ((isPiece(m32,window.player1Side)==true) &&
+      (isPiece(m33,window.player1Side)==true) &&
+      (isPiece(m31,window.noPiece)==true)) {
+        space=m31
+  } else
+  // col 1
+  if  ((isPiece(m11,window.player1Side)==true) &&
+      (isPiece(m21,window.player1Side)==true) &&
+      (isPiece(m31,window.noPiece)==true)) {
+        space=m31
+  } else
+  if  ((isPiece(m11,window.player1Side)==true) &&
+      (isPiece(m31,window.player1Side)==true) &&
+      (isPiece(m21,window.noPiece)==true)) {
+        space=m21
+  } else
+  if  ((isPiece(m31,window.player1Side)==true) &&
+      (isPiece(m21,window.player1Side)==true) &&
+      (isPiece(m11,window.noPiece)==true)) {
+        space=m11
+  } else
+  // col 2
+  if  ((isPiece(m12,window.player1Side)==true) &&
+      (isPiece(m22,window.player1Side)==true) &&
+      (isPiece(m32,window.noPiece)==true)) {
+        space=m32
+  } else
+  if  ((isPiece(m12,window.player1Side)==true) &&
+      (isPiece(m32,window.player1Side)==true) &&
+      (isPiece(m22,window.noPiece)==true)) {
+        space=m22
+  } else
+  if  ((isPiece(m32,window.player1Side)==true) &&
+      (isPiece(m22,window.player1Side)==true) &&
+      (isPiece(m12,window.noPiece)==true)) {
+        space=m12
+  } else
+  // col 3
+  if  ((isPiece(m13,window.player1Side)==true) &&
+      (isPiece(m23,window.player1Side)==true) &&
+      (isPiece(m33,window.noPiece)==true)) {
+        space=m33
+  } else
+  if  ((isPiece(m13,window.player1Side)==true) &&
+      (isPiece(m33,window.player1Side)==true) &&
+      (isPiece(m23,window.noPiece)==true)) {
+        space=m23
+  } else
+  if  ((isPiece(m33,window.player1Side)==true) &&
+      (isPiece(m23,window.player1Side)==true) &&
+      (isPiece(m13,window.noPiece)==true)) {
+        space=m13
+  } else
+  // diagonal 1
+  if  ((isPiece(m11,window.player1Side)==true) &&
+      (isPiece(m22,window.player1Side)==true) &&
+      (isPiece(m33,window.noPiece)==true)) {
+        space=m33
+  } else
+  if  ((isPiece(m11,window.player1Side)==true) &&
+      (isPiece(m33,window.player1Side)==true) &&
+      (isPiece(m22,window.noPiece)==true)) {
+        space=m22
+  } else
+  if  ((isPiece(m33,window.player1Side)==true) &&
+      (isPiece(m22,window.player1Side)==true) &&
+      (isPiece(m11,window.noPiece)==true)) {
+        space=m11
+  } else
+  // diagonal 2
+  if  ((isPiece(m13,window.player1Side)==true) &&
+      (isPiece(m22,window.player1Side)==true) &&
+      (isPiece(m31,window.noPiece)==true)) {
+        space=m31
+  } else
+  if  ((isPiece(m13,window.player1Side)==true) &&
+      (isPiece(m31,window.player1Side)==true) &&
+      (isPiece(m22,window.noPiece)==true)) {
+        space=m22
+  } else
+  if  ((isPiece(m31,window.player1Side)==true) &&
+      (isPiece(m22,window.player1Side)==true) &&
+      (isPiece(m13,window.noPiece)==true)) {
+        space=m13
+  } else
+  
+  
   //  block 2 threat
     // pick corner
   //  check for pincer
   //  build threat
   //  take middle then corners then side
-  // cannot choose taken spot 
+  if (isPiece(m22,window.noPiece)==true) {
+    space = m22
+  } else
+  // corners
+  if (isPiece(m11,window.noPiece)==true) {
+    space = m11
+  } else
+  if (isPiece(m13,window.noPiece)==true) {
+    space = m13
+  } else
+  if (isPiece(m31,window.noPiece)==true) {
+    space = m31
+  } else
+  if (isPiece(m33,window.noPiece)==true) {
+    space = m33
+  } else
+  // sides 
+  if (isPiece(m21,window.noPiece)==true) {
+    space = m21
+  } else
+  if (isPiece(m32,window.noPiece)==true) {
+    space = m32
+  } else
+  if (isPiece(m23,window.noPiece)==true) {
+    space = m23
+  } else
+  if (isPiece(m12,window.noPiece)==true) {
+    space = m12
+  } 
+ 
   processSpaceElement(space)
 }
 
@@ -372,11 +514,13 @@ var processSide = function(event) {
   if (event.target.id == "mo-X") {
     window.player1Side = window.xPiece
     window.player2Side = window.oPiece
+    window.gameState = GAMESTATE.P1TURN
   } else {
     window.player1Side = window.oPiece
     window.player2Side = window.xPiece    
+    window.gameState = GAMESTATE.P2TURN
   }
-  window.gameState = GAMESTATE.P1TURN
+  
   doTurn()
 }
 
