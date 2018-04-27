@@ -98,19 +98,6 @@ var nextState=function(gState) {
   }
 }
 
-var nextMove=function () {
-  var move = '11';
-
-  // block possible losses
-    // for each spot
-      // check if adjacent with free space further
-  //  block 2 threat
-    // pick corner
-  //  check for pincer
-  //  build threat
-  //  take middle then corners then side
-  // cannot choose taken spot 
-}
 
 $(document).ready(function() {
   
@@ -131,7 +118,7 @@ $(document).ready(function() {
   document.getElementById("mo-O").addEventListener("click",processSide)
   document.getElementById("mo-lines").addEventListener("click",processClick)
   showScores()
-  doTurn(window.gameState) 
+  doTurn() 
   addLog("Document Ready")
 })
 
@@ -141,7 +128,36 @@ var doTurn=function() {
     // set up visibility of appropriate elements
     var fname = window.gameState.fname
     window[window.gameState.fname]()
+    if (window.gameState==GAMESTATE.P2TURN &&
+      window.player2Species==PLAYERSPECIES.COMPUTER) {
+        doComputerMove()
+      }
 }
+
+var doComputerMove=function () {
+  m11=document.getElementById("mo-11")
+  m12=document.getElementById("mo-12")
+  m13=document.getElementById("mo-13")
+  m21=document.getElementById("mo-21")
+  m22=document.getElementById("mo-22")
+  m23=document.getElementById("mo-23")
+  m31=document.getElementById("mo-31")
+  m32=document.getElementById("mo-32")
+  m33=document.getElementById("mo-33")
+
+  space = m11
+  // block possible losses
+    // for each spot
+      // check if adjacent with free space further
+  //  block 2 threat
+    // pick corner
+  //  check for pincer
+  //  build threat
+  //  take middle then corners then side
+  // cannot choose taken spot 
+  processSpaceElement(space)
+}
+
 
 var showScores=function() {
   $(".mo-scores").html("<b>Scores</b> &nbsp;&nbsp;&nbsp;&nbsp;  Player 1:  "+window.player1Score+" &nbsp;&nbsp;&nbsp;&nbsp;   Player 2:  "+window.player2Score)
@@ -188,22 +204,27 @@ var showScores=function() {
   }
 
 
-
-
 var processSpace=function(event){
-  var butt = document.getElementById(event.target.id)
-  if (butt.src.indexOf(noPiece)!==-1) {
+  var element = document.getElementById(event.target.id)
+  processSpaceElement(element)
+}
+
+var processSpaceElement=function(element) {
+  if (element.src.indexOf(noPiece)!==-1) {
     if (window.gameState==GAMESTATE.P1TURN) {
-      butt.src=window.player1Side
+      element.src=window.player1Side
       window.gameState = GAMESTATE.P2TURN
+      checkForVictory()
     } else if (window.gameState==GAMESTATE.P2TURN){
-      butt.src=window.player2Side
+      element.src=window.player2Side
       window.gameState = GAMESTATE.P1TURN
+      checkForVictory()
     }
-    checkForVictory()
+    
     doTurn()
       
   }
+
 }
 
 var checkForVictory=function() {
@@ -211,11 +232,11 @@ var checkForVictory=function() {
   if (checkPlayerWon(window.player1Side)==true) {
     processPlayerWin(1)
     window.gameState=GAMESTATE.PLAYER1WINS
-  }
+  } else 
   if (checkPlayerWon(window.player2Side)==true) {
     processPlayerWin(2)
     window.gameState=GAMESTATE.PLAYER2WINS
-  }
+  } else 
   if (checkNoWinner()==true) {
     window.gameState = GAMESTATE.GAMEOVER
   }

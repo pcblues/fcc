@@ -4,13 +4,21 @@
     margin-bottom: 10px;
     box-shadow: 0 0 100px black;
     padding:0 0px 0 0px;
-
+  border-radius: 10px;
 }
   
+.container 
+{
+  font-family: 'Gamja Flower', cursive;
+  font-size: 30px;
+}
+
 .mo-butt
 {
 height:50px;
 width:150px;
+font-family: 'Gamja Flower', cursive;
+font-size: 25px;
 }
 
 .mo-space
@@ -56,11 +64,11 @@ max-width: 390px;
 
 .mo-title 
   {
-    font-family:  sans-serif;
-    font-size: 40px;
-    /*
-    padding:10px 15px 10px 15px;
-    */
+    font-family: 'Gamja Flower', cursive;
+    font-size: 50px;
+    
+    padding: 0px 0px 3px 0px;
+    
   }
 
   .mo-logo
