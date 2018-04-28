@@ -179,51 +179,51 @@ var doComputerMove=function () {
   } else
   // col 1
   if  ((isPiece(m11,window.player2side)==true) &&
-      (isPiece(m21,window.player2side)==true) &&
-      (isPiece(m31,window.noPiece)==true)) {
-        space=m31
+      (isPiece(m12,window.player2side)==true) &&
+      (isPiece(m13,window.noPiece)==true)) {
+        space=m13
   } else
   if  ((isPiece(m11,window.player2side)==true) &&
-      (isPiece(m31,window.player2side)==true) &&
-      (isPiece(m21,window.noPiece)==true)) {
-        space=m21
+      (isPiece(m13,window.player2side)==true) &&
+      (isPiece(m12,window.noPiece)==true)) {
+        space=m12
   } else
-  if  ((isPiece(m31,window.player2side)==true) &&
-      (isPiece(m21,window.player2side)==true) &&
+  if  ((isPiece(m12,window.player2side)==true) &&
+      (isPiece(m13,window.player2side)==true) &&
       (isPiece(m11,window.noPiece)==true)) {
         space=m11
   } else
   // col 2
-  if  ((isPiece(m12,window.player2side)==true) &&
+  if  ((isPiece(m21,window.player2side)==true) &&
       (isPiece(m22,window.player2side)==true) &&
-      (isPiece(m32,window.noPiece)==true)) {
-        space=m32
-  } else
-  if  ((isPiece(m12,window.player2side)==true) &&
-      (isPiece(m32,window.player2side)==true) &&
-      (isPiece(m22,window.noPiece)==true)) {
-        space=m22
-  } else
-  if  ((isPiece(m32,window.player2side)==true) &&
-      (isPiece(m22,window.player2side)==true) &&
-      (isPiece(m12,window.noPiece)==true)) {
-        space=m12
-  } else
-  // col 3
-  if  ((isPiece(m13,window.player2side)==true) &&
-      (isPiece(m23,window.player2side)==true) &&
-      (isPiece(m33,window.noPiece)==true)) {
-        space=m33
-  } else
-  if  ((isPiece(m13,window.player2side)==true) &&
-      (isPiece(m33,window.player2side)==true) &&
       (isPiece(m23,window.noPiece)==true)) {
         space=m23
   } else
-  if  ((isPiece(m33,window.player2side)==true) &&
+  if  ((isPiece(m21,window.player2side)==true) &&
       (isPiece(m23,window.player2side)==true) &&
-      (isPiece(m13,window.noPiece)==true)) {
-        space=m13
+      (isPiece(m22,window.noPiece)==true)) {
+        space=m22
+  } else
+  if  ((isPiece(m22,window.player2side)==true) &&
+      (isPiece(m23,window.player2side)==true) &&
+      (isPiece(m21,window.noPiece)==true)) {
+        space=m21
+  } else
+  // col 3
+  if  ((isPiece(m31,window.player2side)==true) &&
+      (isPiece(m32,window.player2side)==true) &&
+      (isPiece(m33,window.noPiece)==true)) {
+        space=m33
+  } else
+  if  ((isPiece(m31,window.player2side)==true) &&
+      (isPiece(m33,window.player2side)==true) &&
+      (isPiece(m32,window.noPiece)==true)) {
+        space=m32
+  } else
+  if  ((isPiece(m33,window.player2side)==true) &&
+      (isPiece(m32,window.player2side)==true) &&
+      (isPiece(m31,window.noPiece)==true)) {
+        space=m31
   } else
   // diagonal 1
   if  ((isPiece(m11,window.player2side)==true) &&
