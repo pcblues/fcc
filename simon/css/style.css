@@ -19,24 +19,13 @@
   {
     max-height: 50px;
   }
+
   .mo-icon
   {
     background-size: 100px;
     background-repeat: no-repeat;
      background-position: center;
      min-height:100px
-
-  }
-  .mo-weather 
-  {
-    font-family:  sans-serif;
-    font-size: 20px;
-  }
-
-  .mo-gotgeo
-  {
-    font-family:  sans-serif;
-    font-size: 10px;
 
   }
 
