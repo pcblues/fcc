@@ -69,3 +69,7 @@ var addLog = function(msg) {
   console.log(msg)
 }
 
+function playButtonPress() {
+  var sound = document.getElementById("buttonSound");
+  sound.play();
+}

@@ -16,26 +16,50 @@
 
 .mo-red {
   position: absolute;
-  top: 10px;
-  left: -25px;
+  top: 152px;
+  left: 265px;
 }
 
 .mo-blue {
   position: absolute;
-  top: 10px;
-  left: -25px;
+  top: 245px;
+  left: 265px;
 }
 
 .mo-green {
   position: absolute;
-  top: 10px;
-  left: -25px;
+  top: 152px;
+  left: 169px;
 }
 
 .mo-yellow {
   position: absolute;
-  top: 10px;
-  left: -25px;
+  top: 245px;
+  left: 169px;
+}
+
+.mo-start {
+  position: absolute;
+  top: 117px;
+  left: 222px;
+}
+
+.mo-strict {
+  position: absolute;
+  top: 74px;
+  left: 137px;
+}
+
+.mo-num1s {
+  position: absolute;
+  top: 340px;
+  left: 257px;
+}
+
+.mo-num10s {
+  position: absolute;
+  top: 340px;
+  left: 240px;
 }
 
 .mo-credit
