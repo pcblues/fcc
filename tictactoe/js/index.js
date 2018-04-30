@@ -56,9 +56,8 @@ var PLAYERSPECIES = Object.freeze(
 )
  
 var gameState = GAMESTATE.PLAYERS
-var board = [[0,0,0],[0,0,0],[0,0,0]];
-var xPiece = "http://pcblues.com/fcc/tictactoe/art/x.png"
-var oPiece = "http://pcblues.com/fcc/tictactoe/art/o.png"
+var xPiece =  "http://pcblues.com/fcc/tictactoe/art/x.png"
+var oPiece =  "http://pcblues.com/fcc/tictactoe/art/o.png"
 var noPiece = "http://pcblues.com/fcc/tictactoe/art/blank.png"
 
 var numPlayers = 1
@@ -114,6 +113,12 @@ var doTurn=function() {
       window.player2Species==PLAYERSPECIES.COMPUTER) {
         doComputerMove()
       }
+    // New Game at end
+    if ((window.gameState==GAMESTATE.GAMEOVER) ||
+        (window.gameState==GAMESTATE.PLAYER1WINS) ||
+        (window.gameState==GAMESTATE.PLAYER2WINS)) {
+          processNewGame()
+        }
 }
 
 var doComputerMove=function () {
@@ -391,10 +396,35 @@ var doComputerMove=function () {
   } else
   
   
-  //  block 2 threat
-    // pick corner
   //  check for pincer
-  //  build threat
+  //  if opposite corners then take any side position
+  if  (
+      (((isPiece(m11,window.player1Side)==true) &&
+      (isPiece(m33,window.player1Side)==true)) ||
+      ((isPiece(m13,window.player1Side)==true) &&
+      (isPiece(m31,window.player1Side)==true)) 
+   ) &&
+   ((isPiece(m12,window.noPiece)==true) ||
+    (isPiece(m21,window.noPiece)==true)||
+    (isPiece(m32,window.noPiece)==true)||
+    (isPiece(m23,window.noPiece)==true))) {
+      if (isPiece(m12,window.noPiece)==true) {
+        space = m12
+      } else
+      // corners
+      if (isPiece(m21,window.noPiece)==true) {
+        space = m21
+      } else
+      if (isPiece(m23,window.noPiece)==true) {
+        space = m23
+      } else
+      if (isPiece(m32,window.noPiece)==true) {
+        space = m32
+      }
+    
+    } else
+  
+  
   //  take middle then corners then side
   if (isPiece(m22,window.noPiece)==true) {
     space = m22
@@ -608,6 +638,26 @@ var processClick=function(event)
   imge.hidden = false
   addLog(undr.id)
 }
+
+var processNewGame = function(event) {
+  document.getElementById("mo-11").src=noPiece
+  document.getElementById("mo-12").src=noPiece
+  document.getElementById("mo-13").src=noPiece
+  document.getElementById("mo-21").src=noPiece
+  document.getElementById("mo-22").src=noPiece
+  document.getElementById("mo-23").src=noPiece
+  document.getElementById("mo-31").src=noPiece
+  document.getElementById("mo-32").src=noPiece
+  document.getElementById("mo-33").src=noPiece
+  if (window.player1Side == window.xPiece) {
+    window.gameState = GAMESTATE.P1TURN
+  } else 
+  if (window.player1Side == window.yPiece) {
+    window.gameState = GAMESTATE.P2TURN
+  }  
+  doTurn()
+}
+
 
 var processRestart = function(event) {
   window.gameState = GAMESTATE.PLAYERS
