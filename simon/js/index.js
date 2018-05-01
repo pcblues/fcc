@@ -59,17 +59,191 @@ You can get feedback on your project by sharing it with your friends on Facebook
 DONE:
 
 */  
+var soundRed="http://pcblues.com/fcc/simon/assets/beep1a.mp3"
+var soundBlue="http://pcblues.com/fcc/simon/assets/beep1b.mp3"
+var soundGreen="http://pcblues.com/fcc/simon/assets/beep1c.mp3"
+var soundYellow="http://pcblues.com/fcc/simon/assets/beep1d.mp3"
+var soundWin="http://pcblues.com/fcc/simon/assets/victory.mp3"
+var soundLose="http://pcblues.com/fcc/simon/assets/upgrade.mp3"
+var soundStart="http://pcblues.com/fcc/simon/assets/becomelikeus.mp3"
+var soundWrong="http://pcblues.com/fcc/simon/assets/delete.mp3"
+
+var currentStep=0
+var gameStrict=0
+var doNext=false
+
+var gameScore=0
+var gameOrder=[]
+var BUTTONS = Object.freeze({
+  RED:{val:1},
+  BLUE: {val:2},
+  GREEN:{val:3},
+  YELLOW:{val:4}})
+var gamePlayback = false
 
 $(document).ready(function() {
+  showScore()
+  showStrict()
+  hidePresses()
+  document.getElementById("mo-red").addEventListener("click",flashButton)
+  document.getElementById("mo-blue").addEventListener("click",flashButton)
+  document.getElementById("mo-green").addEventListener("click",flashButton)
+  document.getElementById("mo-yellow").addEventListener("click",flashButton)
+  document.getElementById("mo-start").addEventListener("click",startNow)
+  document.getElementById("mo-stricton").addEventListener("click",toggleStrict)
+  document.getElementById("mo-strictoff").addEventListener("click",toggleStrict)
+  showScore()
   addLog("Document Ready")
+  
 })
+
+var hidePresses=function() {
+  $("#mo-bluepress").hide()
+  $("#mo-greenpress").hide()
+  $("#mo-redpress").hide()
+  $("#mo-yellowpress").hide()
+  
+}
+
+var toggleStrict=function(){
+  window.gameStrict=Math.abs(window.gameStrict-1)
+  showStrict()
+}
+
+var showStrict=function()  {
+  if (window.gameStrict==0) {
+    $("#mo-strictoff").show()
+    $("#mo-stricton").hide()
+  } else {
+    $("#mo-stricton").show()
+    $("#mo-strictoff").hide()    
+  }
+}
 
 var addLog = function(msg) {
   //$(".mo-log").append(msg+"<BR>")
   console.log(msg)
 }
 
-function playButtonPress() {
-  var sound = document.getElementById("buttonSound");
-  sound.play();
+
+
+var startNow=function() {
+  window.gameScore=0
+  
+  var sound=new Audio(soundStart)
+  sound.play()
+  setTimeout(startGame,4000)
 }
+
+var startGame=function() {
+  window.gamePlayback=true
+  playStep()
+}
+
+var playStep=function() {
+  newButt=getNextButt()
+  window.gameOrder.push(newButt.val)
+  playOrder()
+}
+
+
+var playOrder=function() {
+  var arrayLength =  window.gameOrder.length;
+  for (var c = 0; c < arrayLength; c++) {
+    window.doNext=false
+    setTimeout(breakTime,1000)
+    while (window.doNext=false) {
+      
+    }
+    i=window.gameOrder[c]
+    if (i==BUTTONS.RED.val) {
+      $("#mo-redpress").show()
+      var sound = new Audio(soundRed)
+      sound.play()
+    } else 
+    if (i==BUTTONS.BLUE.val) {
+      $("#mo-bluepress").show()
+      var sound = new Audio(soundBlue)
+      sound.play()
+    } else 
+    if (i==BUTTONS.GREEN.val) {
+      $("#mo-greenpress").show()
+      var sound = new Audio(soundGreen)
+      sound.play()
+    } else 
+    if (i==BUTTONS.YELLOW.val) {
+      $("#mo-yellowpress").show()
+      var sound = new Audio(soundYellow)
+      sound.play()
+    }
+    setTimeout(hidePresses,200)  
+  }
+  window.currentStep=0
+
+}
+
+var showScore=function() {
+  $(".mo-num1s").hide()
+  $(".mo-num10s").hide()
+  tens=Math.floor(window.gameScore / 10)
+  ones=window.gameScore % 10
+  $("#mo-n"+ones).show()
+  $("#mo-n"+tens+"t").show()
+}
+
+
+var flashButton= function(event) {
+  var id = event.target.id
+  var thisStep=0
+  if (id=="mo-red") {
+    $("#mo-redpress").show()
+    var sound = new Audio(soundRed)
+    sound.play()
+    thisStep=BUTTONS.RED.val
+  } else 
+  if (id=="mo-blue") {
+    $("#mo-bluepress").show()
+    var sound = new Audio(soundBlue)
+    sound.play()
+    thisStep=BUTTONS.BLUE.val
+  } else 
+  if (id=="mo-green") {
+    $("#mo-greenpress").show()
+    var sound = new Audio(soundGreen)
+    sound.play()
+    thisStep=BUTTONS.GREEN.val
+  } else 
+  if (id="mo-yellow") {
+    $("#mo-yellowpress").show()
+    var sound = new Audio(soundYellow)
+    sound.play()
+    thisStep=BUTTONS.YELLOW.val
+  }
+  setTimeout(hidePresses,200)
+  checkVictory(thisStep)
+
+} 
+
+var breakTime=function() {
+  window.doNext=true
+}
+
+var checkVictory=function(thisStep) {
+  if (thisStep!==window.gameOrder[window.currentStep]) {
+    var sound = new Audio(soundLose)
+  }
+  if (window.currentStep<window.gameOrder.length) {
+    window.currentStep+=1
+  }
+  playStep()
+}
+
+var getNextButt=function(){
+  var num=Math.floor((Math.random() * 4) + 1)
+  for (var i in BUTTONS) {
+    if (BUTTONS[i].val==num) {
+      return BUTTONS[i]
+    } 
+  }
+}
+
