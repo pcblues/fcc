@@ -59,20 +59,24 @@ You can get feedback on your project by sharing it with your friends on Facebook
 DONE:
 
 */  
-var soundRed="http://pcblues.com/fcc/simon/assets/beep1a.mp3"
-var soundBlue="http://pcblues.com/fcc/simon/assets/beep1b.mp3"
-var soundGreen="http://pcblues.com/fcc/simon/assets/beep1c.mp3"
-var soundYellow="http://pcblues.com/fcc/simon/assets/beep1d.mp3"
-var soundWin="http://pcblues.com/fcc/simon/assets/victory.mp3"
-var soundLose="http://pcblues.com/fcc/simon/assets/upgrade.mp3"
-var soundStart="http://pcblues.com/fcc/simon/assets/becomelikeus.mp3"
-var soundWrong="http://pcblues.com/fcc/simon/assets/delete.mp3"
+var soundRed="assets/beep1a.mp3"
+var soundBlue="assets/beep1b.mp3"
+var soundGreen="assets/beep1c.mp3"
+var soundYellow="assets/beep1d.mp3"
+var soundWin="assets/victory.mp3"
+var soundLose="assets/upgrade.mp3"
+var soundStart="assets/becomelikeus.mp3"
+var soundWrong="assets/delete.mp3"
 
-var currentStep=0
+var gameScore = 0
+var computerStep=0
+var playerStep = 0
 var gameStrict=0
 var doNext=false
+var playing = null
+var playersTurn = false
 
-var gameScore=0
+
 var gameOrder=[]
 var BUTTONS = Object.freeze({
   RED:{val:1},
@@ -92,9 +96,8 @@ $(document).ready(function() {
   document.getElementById("mo-start").addEventListener("click",startNow)
   document.getElementById("mo-stricton").addEventListener("click",toggleStrict)
   document.getElementById("mo-strictoff").addEventListener("click",toggleStrict)
-  showScore()
-  addLog("Document Ready")
   
+  addLog("Document Ready")
 })
 
 var hidePresses=function() {
@@ -126,60 +129,69 @@ var addLog = function(msg) {
 }
 
 
-
+// Computer game
 var startNow=function() {
-  window.gameScore=0
-  
   var sound=new Audio(soundStart)
   sound.play()
+  window.playersTurn=false
   setTimeout(startGame,4000)
 }
 
 var startGame=function() {
   window.gamePlayback=true
-  playStep()
+  window.gameScore=0
+  window.gameOrder=[]
+  doNextStep()
 }
 
-var playStep=function() {
+var doNextStep=function() {
   newButt=getNextButt()
   window.gameOrder.push(newButt.val)
-  playOrder()
+  showScore()
+  playSequence()
+}
+
+var playSequence=function() {
+  window.computerStep = 0
+  window.playing = setInterval(playOrder,500)  
 }
 
 
 var playOrder=function() {
   var arrayLength =  window.gameOrder.length;
-  for (var c = 0; c < arrayLength; c++) {
-    window.doNext=false
-    setTimeout(breakTime,1000)
-    while (window.doNext=false) {
-      
-    }
-    i=window.gameOrder[c]
-    if (i==BUTTONS.RED.val) {
-      $("#mo-redpress").show()
-      var sound = new Audio(soundRed)
-      sound.play()
-    } else 
-    if (i==BUTTONS.BLUE.val) {
-      $("#mo-bluepress").show()
-      var sound = new Audio(soundBlue)
-      sound.play()
-    } else 
-    if (i==BUTTONS.GREEN.val) {
-      $("#mo-greenpress").show()
-      var sound = new Audio(soundGreen)
-      sound.play()
-    } else 
-    if (i==BUTTONS.YELLOW.val) {
-      $("#mo-yellowpress").show()
-      var sound = new Audio(soundYellow)
-      sound.play()
-    }
-    setTimeout(hidePresses,200)  
+  if (window.computerStep==arrayLength) {
+    clearInterval(window.playing) 
+    window.playerStep = 0
+    window.playersTurn = true
+  } else {
+    setTimeout(playNext(),500)
   }
-  window.currentStep=0
+}
 
+var playNext=function() {
+  i=window.gameOrder[window.computerStep]
+  if (i==BUTTONS.RED.val) {
+    $("#mo-redpress").show()
+    var sound = new Audio(soundRed)
+    sound.play()
+  } else 
+  if (i==BUTTONS.BLUE.val) {
+    $("#mo-bluepress").show()
+    var sound = new Audio(soundBlue)
+    sound.play()
+  } else 
+  if (i==BUTTONS.GREEN.val) {
+    $("#mo-greenpress").show()
+    var sound = new Audio(soundGreen)
+    sound.play()
+  } else 
+  if (i==BUTTONS.YELLOW.val) {
+    $("#mo-yellowpress").show()
+    var sound = new Audio(soundYellow)
+    sound.play()
+  }
+  setTimeout(hidePresses,200) 
+  window.computerStep+=1 
 }
 
 var showScore=function() {
@@ -191,36 +203,40 @@ var showScore=function() {
   $("#mo-n"+tens+"t").show()
 }
 
+// PLAYER TURN
 
 var flashButton= function(event) {
-  var id = event.target.id
-  var thisStep=0
-  if (id=="mo-red") {
-    $("#mo-redpress").show()
-    var sound = new Audio(soundRed)
-    sound.play()
-    thisStep=BUTTONS.RED.val
-  } else 
-  if (id=="mo-blue") {
-    $("#mo-bluepress").show()
-    var sound = new Audio(soundBlue)
-    sound.play()
-    thisStep=BUTTONS.BLUE.val
-  } else 
-  if (id=="mo-green") {
-    $("#mo-greenpress").show()
-    var sound = new Audio(soundGreen)
-    sound.play()
-    thisStep=BUTTONS.GREEN.val
-  } else 
-  if (id="mo-yellow") {
-    $("#mo-yellowpress").show()
-    var sound = new Audio(soundYellow)
-    sound.play()
-    thisStep=BUTTONS.YELLOW.val
+  if (window.playersTurn==true) {
+
+    var id = event.target.id
+    var thisStep=0
+    if (id=="mo-red") {
+      $("#mo-redpress").show()
+      var sound = new Audio(soundRed)
+      sound.play()
+      thisStep=BUTTONS.RED.val
+    } else 
+    if (id=="mo-blue") {
+      $("#mo-bluepress").show()
+      var sound = new Audio(soundBlue)
+      sound.play()
+      thisStep=BUTTONS.BLUE.val
+    } else 
+    if (id=="mo-green") {
+      $("#mo-greenpress").show()
+      var sound = new Audio(soundGreen)
+      sound.play()
+      thisStep=BUTTONS.GREEN.val
+    } else 
+    if (id="mo-yellow") {
+      $("#mo-yellowpress").show()
+      var sound = new Audio(soundYellow)
+      sound.play()
+      thisStep=BUTTONS.YELLOW.val
+    }
+    setTimeout(hidePresses,200)
+    checkVictory(thisStep)
   }
-  setTimeout(hidePresses,200)
-  checkVictory(thisStep)
 
 } 
 
@@ -229,13 +245,21 @@ var breakTime=function() {
 }
 
 var checkVictory=function(thisStep) {
-  if (thisStep!==window.gameOrder[window.currentStep]) {
-    var sound = new Audio(soundLose)
+  if (thisStep!==window.gameOrder[window.playerStep]) {
+    setTimeout(function(){var sound = new Audio(soundLose);
+      sound.play();},1000)
+    if (window.gameStrict==1) {
+      setTimeout(startNow,1000)
+    } else {
+      playSequence()
+    }
+  } else if (window.playerStep==(window.gameOrder.length)-1) {
+    window.gameScore+=1
+    window.playerStep+=1
+    doNextStep()
+  } else {
+    playNext()
   }
-  if (window.currentStep<window.gameOrder.length) {
-    window.currentStep+=1
-  }
-  playStep()
 }
 
 var getNextButt=function(){
