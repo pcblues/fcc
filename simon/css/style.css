@@ -12,54 +12,57 @@
   position: relative;
   top: 0;
   left: 0;
+  margin:auto;
+  max-width: 480px;
+
 }
 
 .mo-red {
   position: absolute;
   top: 152px;
-  left: 265px;
+  left: 250px;
 }
 
 .mo-blue {
   position: absolute;
   top: 245px;
-  left: 265px;
+  left: 250px;
 }
 
 .mo-green {
   position: absolute;
   top: 152px;
-  left: 169px;
+  left: 154px;
 }
 
 .mo-yellow {
   position: absolute;
   top: 245px;
-  left: 169px;
+  left: 154px;
 }
 
 .mo-start {
   position: absolute;
   top: 117px;
-  left: 222px;
+  left: 207px;
 }
 
 .mo-strict {
   position: absolute;
-  top: 74px;
-  left: 137px;
+  top: 76px;
+  left: 122px;
 }
 
 .mo-num1s {
   position: absolute;
   top: 345px;
-  left: 257px;
+  left: 242px;
 }
 
 .mo-num10s {
   position: absolute;
   top: 345px;
-  left: 240px;
+  left: 225px;
 }
 
 .mo-credit
