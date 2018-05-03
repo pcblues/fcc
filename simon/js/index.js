@@ -63,10 +63,6 @@ var soundRed="assets/beep1a.mp3"
 var soundBlue="assets/beep1b.mp3"
 var soundGreen="assets/beep1c.mp3"
 var soundYellow="assets/beep1d.mp3"
-var soundWin="assets/victory.mp3"
-var soundLose="assets/upgrade.mp3"
-var soundStart="assets/becomelikeus.mp3"
-var soundWrong="assets/delete.mp3"
 
 var gameScore = 0
 var computerStep=0
@@ -131,23 +127,22 @@ var addLog = function(msg) {
 
 // Computer game
 var startNow=function() {
-  var sound=new Audio(soundStart)
-  sound.play()
   window.playersTurn=false
-  setTimeout(startGame,4000)
+  playStartSound()
 }
 
 var startGame=function() {
   window.gamePlayback=true
   window.gameScore=0
   window.gameOrder=[]
+  showScore()
   doNextStep()
 }
 
 var doNextStep=function() {
+  showScore()
   newButt=getNextButt()
   window.gameOrder.push(newButt.val)
-  showScore()
   playSequence()
 }
 
@@ -240,26 +235,45 @@ var flashButton= function(event) {
 
 } 
 
-var breakTime=function() {
-  window.doNext=true
-}
-
 var checkVictory=function(thisStep) {
   if (thisStep!==window.gameOrder[window.playerStep]) {
-    setTimeout(function(){var sound = new Audio(soundLose);
-      sound.play();},1000)
+    
     if (window.gameStrict==1) {
-      setTimeout(startNow,1000)
+      playLoseSound()     
     } else {
-      playSequence()
+      playWrongSound()
     }
+
+  } else if (window.playerStep==20) {
+    playWinSound()
+    window.playersTurn=false 
+    
   } else if (window.playerStep==(window.gameOrder.length)-1) {
     window.gameScore+=1
-    window.playerStep+=1
+    window.playersTurn=false
     doNextStep()
   } else {
-    playNext()
-  }
+    window.playerStep+=1
+  } 
+}
+
+var playLoseSound=function() {
+  var aud = document.getElementById("soundLose");
+  aud.play()
+}
+var playWinSound=function() {
+  var aud = document.getElementById("soundWin");
+  aud.play()
+}
+var playWrongSound=function() {
+  var aud = document.getElementById("soundWrong");
+  aud.play()
+  aud.onended = playSequence
+}
+var playStartSound=function() {
+  var aud = document.getElementById("soundStart");
+  aud.play()
+  aud.onended = startGame
 }
 
 var getNextButt=function(){
