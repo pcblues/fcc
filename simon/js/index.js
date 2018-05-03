@@ -59,10 +59,6 @@ You can get feedback on your project by sharing it with your friends on Facebook
 DONE:
 
 */  
-var soundRed="http://pcblues.com/fcc/simon/assets/beep1a.mp3"
-var soundBlue="http://pcblues.com/fcc/simon/assets/beep1b.mp3"
-var soundGreen="http://pcblues.com/fcc/simon/assets/beep1c.mp3"
-var soundYellow="http://pcblues.com/fcc/simon/assets/beep1d.mp3"
 
 var gameScore = 0
 var computerStep=0
@@ -159,35 +155,34 @@ var playOrder=function() {
     window.playerStep = 0
     window.playersTurn = true
   } else {
-    setTimeout(playNext(),500)
+    playNext()
   }
 }
 
 var playNext=function() {
   i=window.gameOrder[window.computerStep]
+  window.computerStep+=1 
   if (i==BUTTONS.RED.val) {
     $("#mo-redpress").show()
-    var sound = new Audio(soundRed)
-    sound.play()
+    playRedSound()
   } else 
   if (i==BUTTONS.BLUE.val) {
     $("#mo-bluepress").show()
-    var sound = new Audio(soundBlue)
-    sound.play()
+    playBlueSound()
   } else 
   if (i==BUTTONS.GREEN.val) {
     $("#mo-greenpress").show()
-    var sound = new Audio(soundGreen)
-    sound.play()
+    playGreenSound()
   } else 
   if (i==BUTTONS.YELLOW.val) {
     $("#mo-yellowpress").show()
-    var sound = new Audio(soundYellow)
-    sound.play()
+    playYellowSound()
   }
-  setTimeout(hidePresses,200) 
-  window.computerStep+=1 
+   
 }
+
+
+
 
 var showScore=function() {
   $(".mo-num1s").hide()
@@ -207,29 +202,24 @@ var flashButton= function(event) {
     var thisStep=0
     if (id=="mo-red") {
       $("#mo-redpress").show()
-      var sound = new Audio(soundRed)
-      sound.play()
+      playRedSound()
       thisStep=BUTTONS.RED.val
     } else 
     if (id=="mo-blue") {
       $("#mo-bluepress").show()
-      var sound = new Audio(soundBlue)
-      sound.play()
+      playBlueSound()
       thisStep=BUTTONS.BLUE.val
     } else 
     if (id=="mo-green") {
       $("#mo-greenpress").show()
-      var sound = new Audio(soundGreen)
-      sound.play()
+      playGreenSound()
       thisStep=BUTTONS.GREEN.val
     } else 
     if (id="mo-yellow") {
       $("#mo-yellowpress").show()
-      var sound = new Audio(soundYellow)
-      sound.play()
+      playYellowSound()
       thisStep=BUTTONS.YELLOW.val
     }
-    setTimeout(hidePresses,200)
     checkVictory(thisStep)
   }
 
@@ -239,7 +229,8 @@ var checkVictory=function(thisStep) {
   if (thisStep!==window.gameOrder[window.playerStep]) {
     
     if (window.gameStrict==1) {
-      playLoseSound()     
+      playLoseSound()
+      window.playersTurn=false      
     } else {
       playWrongSound()
     }
@@ -274,6 +265,27 @@ var playStartSound=function() {
   var aud = document.getElementById("soundStart");
   aud.play()
   aud.onended = startGame
+}
+
+var playRedSound=function() {
+  var aud = document.getElementById("soundRed");
+  aud.play()
+  aud.onended = hidePresses
+}
+var playBlueSound=function() {
+  var aud = document.getElementById("soundBlue");
+  aud.play()
+  aud.onended = hidePresses
+}
+var playYellowSound=function() {
+  var aud = document.getElementById("soundYellow");
+  aud.play()
+  aud.onended = hidePresses
+}
+var playGreenSound=function() {
+  var aud = document.getElementById("soundGreen");
+  aud.play()
+  aud.onended = hidePresses
 }
 
 var getNextButt=function(){
