@@ -59,10 +59,10 @@ You can get feedback on your project by sharing it with your friends on Facebook
 DONE:
 
 */  
-var soundRed="assets/beep1a.mp3"
-var soundBlue="assets/beep1b.mp3"
-var soundGreen="assets/beep1c.mp3"
-var soundYellow="assets/beep1d.mp3"
+var soundRed="http://pcblues.com/fcc/simon/assets/beep1a.mp3"
+var soundBlue="http://pcblues.com/fcc/simon/assets/beep1b.mp3"
+var soundGreen="http://pcblues.com/fcc/simon/assets/beep1c.mp3"
+var soundYellow="http://pcblues.com/fcc/simon/assets/beep1d.mp3"
 
 var gameScore = 0
 var computerStep=0
