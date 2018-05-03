@@ -67,6 +67,7 @@ var gameStrict=0
 var doNext=false
 var playing = null
 var playersTurn = false
+var thisStep = 0
 
 
 var gameOrder=[]
@@ -88,16 +89,14 @@ $(document).ready(function() {
   document.getElementById("mo-start").addEventListener("click",startNow)
   document.getElementById("mo-stricton").addEventListener("click",toggleStrict)
   document.getElementById("mo-strictoff").addEventListener("click",toggleStrict)
-  
   addLog("Document Ready")
 })
 
 var hidePresses=function() {
-  $("#mo-bluepress").hide()
-  $("#mo-greenpress").hide()
-  $("#mo-redpress").hide()
-  $("#mo-yellowpress").hide()
-  
+    $("#mo-bluepress").hide()
+    $("#mo-greenpress").hide()
+    $("#mo-redpress").hide()
+    $("#mo-yellowpress").hide()
 }
 
 var toggleStrict=function(){
@@ -144,14 +143,14 @@ var doNextStep=function() {
 
 var playSequence=function() {
   window.computerStep = 0
-  window.playing = setInterval(playOrder,500)  
+  playOrder()  
 }
 
 
 var playOrder=function() {
   var arrayLength =  window.gameOrder.length;
+  hidePresses()
   if (window.computerStep==arrayLength) {
-    clearInterval(window.playing) 
     window.playerStep = 0
     window.playersTurn = true
   } else {
@@ -164,25 +163,22 @@ var playNext=function() {
   window.computerStep+=1 
   if (i==BUTTONS.RED.val) {
     $("#mo-redpress").show()
-    playRedSound()
+    playSound("soundRed",playOrder)
   } else 
   if (i==BUTTONS.BLUE.val) {
     $("#mo-bluepress").show()
-    playBlueSound()
+    playSound("soundBlue",playOrder)
   } else 
   if (i==BUTTONS.GREEN.val) {
     $("#mo-greenpress").show()
-    playGreenSound()
+    playSound("soundGreen",playOrder)
   } else 
   if (i==BUTTONS.YELLOW.val) {
     $("#mo-yellowpress").show()
-    playYellowSound()
+    playSound("soundYellow",playOrder)
   }
    
 }
-
-
-
 
 var showScore=function() {
   $(".mo-num1s").hide()
@@ -197,36 +193,36 @@ var showScore=function() {
 
 var flashButton= function(event) {
   if (window.playersTurn==true) {
-
     var id = event.target.id
-    var thisStep=0
+    window.thisStep=0
     if (id=="mo-red") {
       $("#mo-redpress").show()
-      playRedSound()
-      thisStep=BUTTONS.RED.val
+      window.thisStep=BUTTONS.RED.val
+      playSound("soundRed",checkVictory)
     } else 
     if (id=="mo-blue") {
       $("#mo-bluepress").show()
-      playBlueSound()
-      thisStep=BUTTONS.BLUE.val
+      window.thisStep=BUTTONS.BLUE.val
+      playSound("soundBlue",checkVictory)
     } else 
     if (id=="mo-green") {
       $("#mo-greenpress").show()
-      playGreenSound()
-      thisStep=BUTTONS.GREEN.val
+      window.thisStep=BUTTONS.GREEN.val
+      playSound("soundGreen",checkVictory)
     } else 
     if (id="mo-yellow") {
       $("#mo-yellowpress").show()
-      playYellowSound()
-      thisStep=BUTTONS.YELLOW.val
+      window.thisStep=BUTTONS.YELLOW.val
+      playSound("soundYellow",checkVictory)
     }
-    checkVictory(thisStep)
+    
   }
 
 } 
 
-var checkVictory=function(thisStep) {
-  if (thisStep!==window.gameOrder[window.playerStep]) {
+var checkVictory=function() {
+  hidePresses()
+  if (window.thisStep!==window.gameOrder[window.playerStep]) {
     
     if (window.gameStrict==1) {
       playLoseSound()
@@ -267,25 +263,10 @@ var playStartSound=function() {
   aud.onended = startGame
 }
 
-var playRedSound=function() {
-  var aud = document.getElementById("soundRed");
+var playSound=function(sound,callback) {
+  var aud = document.getElementById(sound);
   aud.play()
-  aud.onended = hidePresses
-}
-var playBlueSound=function() {
-  var aud = document.getElementById("soundBlue");
-  aud.play()
-  aud.onended = hidePresses
-}
-var playYellowSound=function() {
-  var aud = document.getElementById("soundYellow");
-  aud.play()
-  aud.onended = hidePresses
-}
-var playGreenSound=function() {
-  var aud = document.getElementById("soundGreen");
-  aud.play()
-  aud.onended = hidePresses
+  aud.onended = callback
 }
 
 var getNextButt=function(){
