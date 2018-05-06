@@ -71,7 +71,9 @@ class App extends React.Component {
     return (
       <div id="mo-board">
         <h1>Camper Leaderboard</h1>
+        <div class="grid">
         {this.showMyGrid()}
+        </div>
       </div>
      )
   }
@@ -86,7 +88,7 @@ class MyRow extends React.Component {
   render() {
     return (
     <div class="row mo-row">
-    <span class="col"><img src={this.props.img}></img></span>
+    <span class="col"><img src={this.props.img} height="42" width="42"></img></span>
     <span class="col">{this.props.username}</span>
     <span class="col">{this.props.recent}</span>
     <span class="col">{this.props.alltime}</span>
