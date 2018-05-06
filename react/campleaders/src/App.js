@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
-import $ from 'jquery'
-
+import  'react-bootstrap'
 /*
 
 Objective: Build a CodePen.io app that is functionally similar to this: https://codepen.io/FreeCodeCamp/full/eZGMjp/.
@@ -22,7 +21,7 @@ Hint: To get the top 100 campers of all time: https://fcctop100.herokuapp.com/ap
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state={ campers30:[], campersAll:[] }
+    this.state={ campers30:[] }
   }    
   
   
@@ -39,21 +38,28 @@ class App extends React.Component {
     .catch((error) => {
       console.error(error)
     })
-    fetch('https://fcctop100.herokuapp.com/api/fccusers/top/alltime')
-    .then((response) => {return response.json()})
-    .then((responseJson)=> {
-      this.setState({campersAll:responseJson})
-    })
-    .catch((error) => {
-      console.error(error)
-    })
+
   }
 
 
   showMyGrid() {
     //[{"username":"Smootimus","img":"https://avatars3.githubusercontent.com/u/6472304?v=4","alltime":95,"recent":81,"lastUpdate":"2018-03-19T19:24:02.627Z"}
       return (
-        <div class="container">
+        <div>
+                 <tr>
+    <th>
+        <span className="mo-col">Pic</span>
+        </th>
+    <th>
+    <span className="mo-col">Name</span>
+    </th>
+    <th>
+    <span className="mo-col">Last 30 Days</span>
+    </th>
+    <th>
+    <span className="mo-col">All Time</span>
+    </th>
+        </tr>
         {this.state.campers30.map(i => 
         <MyRow  key={i.username} 
                 username={i.username}
@@ -71,9 +77,10 @@ class App extends React.Component {
     return (
       <div id="mo-board">
         <h1>Camper Leaderboard</h1>
-        <div class="grid">
+        <table striped>   
+ 
         {this.showMyGrid()}
-        </div>
+        </table>
       </div>
      )
   }
@@ -81,18 +88,25 @@ class App extends React.Component {
 }
 
 class MyRow extends React.Component {
-  constructor() {
-    super()
-  }    
+  
   
   render() {
     return (
-    <div class="row mo-row">
-    <span class="col"><img src={this.props.img} height="42" width="42"></img></span>
-    <span class="col">{this.props.username}</span>
-    <span class="col">{this.props.recent}</span>
-    <span class="col">{this.props.alltime}</span>
-    </div>
+      <tr>
+    <td>
+      <span className="mo-col"><img alt={this.props.username} src={this.props.img} height="42" width="42"></img></span>
+    </td>
+    <td>
+      <span className="mo-col">{this.props.username}</span>
+      </td>
+    <td>
+    <span className="mo-col">{this.props.recent}</span>
+    </td>
+    <td>
+    <span className="mo-col">{this.props.alltime}</span>
+    </td>
+  
+    </tr>
     )
   }
 }

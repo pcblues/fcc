@@ -5,5 +5,9 @@ body {
 }
 
 .mo-row {
-  max-height: 50px;
+  max-height: 60px;
+}
+
+.mo-col {
+  padding: 10px 20px 10px 10px;
 }
