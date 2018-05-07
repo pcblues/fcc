@@ -3,6 +3,12 @@ import './App.css';
 import  'react-bootstrap'
 /*
 
+To do:
+
+sort
+arrows
+font
+
 Objective: Build a CodePen.io app that is functionally similar to this: https://codepen.io/FreeCodeCamp/full/eZGMjp/.
 
 Fulfill the below user stories. Use whichever libraries or APIs you need. Give it your own personal style.
@@ -43,7 +49,7 @@ class App extends React.Component {
 
   showHeader() {
     return (
-      <tr>
+      <tr className="mo-table-h">
       <th>
           Headshot
           </th>

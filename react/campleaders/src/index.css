@@ -13,14 +13,14 @@ body {
 }
 
 
-table  {border-collapse:collapse;border-spacing:0;border-color:#aabcfe;}
+.mo-table  {border-collapse:collapse;border-spacing:0;border-color:#fee8aa;}
 
-td {font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;color:#669;background-color:#e8edff;}
+.mo-table td {font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;color:#669;
+  background-color:#d5c7ee;}
 
-tr:nth-child(even) {
-  background-color: #123456
-}
+.mo-table tr:nth-child(even) td{
+  background-color: #dad4e9}
 
-th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;color:#039;background-color:#b9c9fe;}
+.mo-table th{font-family:Arial, sans-serif;font-size:16px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;color:rgb(161, 183, 228);background-color:#403055;}
 
-.mo-table .mo-table-h{font-size:12px;vertical-align:top}
+.mo-table-h{font-size:14px;vertical-align:top}
