@@ -21,7 +21,7 @@ Hint: To get the top 100 campers of all time: https://fcctop100.herokuapp.com/ap
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state={ campers30:[] }
+    this.state={ campers30:[], rowStripe:0 }
   }    
   
   
@@ -41,32 +41,47 @@ class App extends React.Component {
 
   }
 
+  showHeader() {
+    return (
+      <tr>
+      <th>
+          Headshot
+          </th>
+      <th>
+      Name
+      </th>
+      <th>
+      Last 30 Days
+      </th>
+      <th>
+      All Time
+      </th>
+          </tr>
+    )
+  }
+
+  showRows() {
+    return (this.state.campers30.map(i => 
+  <MyRow  key={i.username} 
+          username={i.username}
+          img={i.img}
+          alltime={i.alltime}
+          recent={i.recent}
+          lastUpdate={i.lastUpdate}
+          />))}
+  
 
   showMyGrid() {
     //[{"username":"Smootimus","img":"https://avatars3.githubusercontent.com/u/6472304?v=4","alltime":95,"recent":81,"lastUpdate":"2018-03-19T19:24:02.627Z"}
-      return (
+
+    return (
         <div>
-                 <tr>
-    <th>
-        <span className="mo-col">Pic</span>
-        </th>
-    <th>
-    <span className="mo-col">Name</span>
-    </th>
-    <th>
-    <span className="mo-col">Last 30 Days</span>
-    </th>
-    <th>
-    <span className="mo-col">All Time</span>
-    </th>
-        </tr>
-        {this.state.campers30.map(i => 
-        <MyRow  key={i.username} 
-                username={i.username}
-                img={i.img}
-                alltime={i.alltime}
-                recent={i.recent}
-                lastUpdate={i.lastUpdate} />)}
+                <table className="mo-table">  
+                <tbody>
+                {this.showHeader()}
+                {this.showRows()}
+                </tbody>
+                </table>
         </div>
       )
     
@@ -77,10 +92,7 @@ class App extends React.Component {
     return (
       <div id="mo-board">
         <h1>Camper Leaderboard</h1>
-        <table striped>   
- 
         {this.showMyGrid()}
-        </table>
       </div>
      )
   }
@@ -88,22 +100,20 @@ class App extends React.Component {
 }
 
 class MyRow extends React.Component {
-  
-  
   render() {
     return (
-      <tr>
-    <td>
-      <span className="mo-col"><img alt={this.props.username} src={this.props.img} height="42" width="42"></img></span>
+      <tr >
+    <td className = {this.props.rowClassName}>
+      <img alt={this.props.username} src={this.props.img} height="42" width="42"></img>
     </td>
-    <td>
-      <span className="mo-col">{this.props.username}</span>
+    <td className = {this.props.rowClassName}>
+      {this.props.username}
       </td>
-    <td>
-    <span className="mo-col">{this.props.recent}</span>
+    <td className = {this.props.rowClassName}>
+    {this.props.recent}
     </td>
-    <td>
-    <span className="mo-col">{this.props.alltime}</span>
+    <td className = {this.props.rowClassName}>
+    {this.props.alltime}
     </td>
   
     </tr>
