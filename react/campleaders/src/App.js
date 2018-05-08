@@ -27,10 +27,41 @@ Hint: To get the top 100 campers of all time: https://fcctop100.herokuapp.com/ap
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state={ campers30:[], rowStripe:0 }
+    this.state={ campers30:[], rowStripe:0, sortDir:0 }
+    this.onSort = this.onSort.bind(this)
+    this.loadCampers = this.loadCampers.bind(this)
+    this.showMyGrid=this.showMyGrid.bind(this)
   }    
   
-  
+  onSort(event, sortKey){
+    /*
+    assuming your data is something like
+    [
+      {accountname:'foo', negotiatedcontractvalue:'bar'},
+      {accountname:'monkey', negotiatedcontractvalue:'spank'},
+      {accountname:'chicken', negotiatedcontractvalue:'dance'},
+    ]
+    */
+    const campers = this.state.campers30;
+    
+    this.setState( (state) => ({sortDir : Math.abs(this.state.sortDir-1)}) )
+    if (this.state.sortDir===0) {
+      campers.sort((a,b) => this.doCompare(b[sortKey],a[sortKey]))
+    } else {
+      campers.sort((a,b) => this.doCompare(a[sortKey],b[sortKey]))
+    }
+    this.setState({campers30:campers})
+  }
+
+  doCompare(a,b) {
+    if (a===b) {
+      return 0
+    } else if (a<b) {
+      return -1
+    } else 
+    return 1
+  }
+
   componentDidMount(){
     this.loadCampers()
   }
@@ -50,16 +81,16 @@ class App extends React.Component {
   showHeader() {
     return (
       <tr className="mo-table-h">
-      <th>
+      <th >
           Headshot
           </th>
       <th>
       Name
       </th>
-      <th>
+      <th onClick={e => this.onSort(e, 'recent')}>
       Last 30 Days
       </th>
-      <th>
+      <th onClick={e => this.onSort(e, 'alltime')}>
       All Time
       </th>
           </tr>
