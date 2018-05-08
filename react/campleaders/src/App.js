@@ -23,16 +23,24 @@ Hint: To get the top 100 campers for the last 30 days: https://fcctop100.herokua
 Hint: To get the top 100 campers of all time: https://fcctop100.herokuapp.com/api/fccusers/top/alltime.
 */
 
+
 class App extends React.Component {
+  
   constructor(props) {
     super(props)
-    this.state={ campers30:[], rowStripe:0, sort30Dir:0, sortAllDir:0 }
     this.onSort = this.onSort.bind(this)
     this.loadCampers = this.loadCampers.bind(this)
     this.showMyGrid=this.showMyGrid.bind(this)
     this.getIcon=this.getIcon.bind(this)
-  }    
+    this.state = { sort30Dir : 2, 
+              sortAllDir : 2,
+              campers30 : []}
   
+
+  }    
+
+ 
+
   onSort(event, sortKey){
     /*
     assuming your data is something like
@@ -43,24 +51,30 @@ class App extends React.Component {
     ]
     */
     const campers = this.state.campers30;
+    var newSort30Dir = this.state.sort30Dir
+    var newSortAllDir = this.state.sortAllDir
     if (sortKey==="recent") {
-      this.setState( (state) => ({sortDir : Math.abs(this.state.sort30Dir-1)}) )
-      if (this.state.sort30Dir===0) {
+      newSort30Dir = Math.abs(newSort30Dir-1)
+      newSortAllDir = 2
+
+      if (newSort30Dir===0) {
         campers.sort((a,b) => this.doCompare(b[sortKey],a[sortKey]))
-      } else {
+      } else if (newSort30Dir===1) {
         campers.sort((a,b) => this.doCompare(a[sortKey],b[sortKey]))
       }
   
     } else {
-      this.setState( (state) => ({sortDir : Math.abs(this.state.sortAllDir-1)}) )
-      if (this.state.sorAlltDir===0) {
+      newSortAllDir = Math.abs(newSortAllDir-1)
+      newSort30Dir = 2
+      if (newSortAllDir===0) {
         campers.sort((a,b) => this.doCompare(b[sortKey],a[sortKey]))
-      } else {
+      } else if (newSortAllDir===1) {
         campers.sort((a,b) => this.doCompare(a[sortKey],b[sortKey]))
       }
-  
     }
-    this.setState({campers30:campers})
+    this.setState({campers30:campers,
+                  sort30Dir:newSort30Dir,
+                  sortAllDir:newSortAllDir})
   }
 
   doCompare(a,b) {
@@ -92,16 +106,16 @@ class App extends React.Component {
     return (
       <tr className="mo-table-h">
       <th >
-          Headshot
+          
           </th>
       <th>
       Name
       </th>
-      <th onClick={e => this.onSort(e, 'recent')}>
-      Last 30 Days {this.getIcon("recent")}
+      <th  onClick={e => this.onSort(e, "recent")}>
+      Last 30 Days &nbsp;{this.getIcon("recent")}
       </th>
-      <th onClick={e => this.onSort(e, 'alltime')}>
-      All Time {this.getIcon("alltime")}
+      <th onClick={e => this.onSort(e, "alltime")}>
+      All Time &nbsp; {this.getIcon("alltime")}
       </th>
           </tr>
     )
@@ -110,15 +124,15 @@ class App extends React.Component {
   getIcon(col) {
     if (col==="recent") {
       if (this.state.sort30Dir===0){
-        return (<span className="glyphicon glyphicon-triangle-top"/>)
-      } else {
         return (<span className="glyphicon glyphicon-triangle-bottom"/>)
+      } else if (this.state.sort30Dir===1){
+        return (<span className="glyphicon glyphicon-triangle-top"/>)
       }
     } else {
       if (this.state.sortAllDir===0){
-        return (<span className="glyphicon glyphicon-triangle-top"/>)
-      } else {
         return (<span className="glyphicon glyphicon-triangle-bottom"/>)
+      } else if (this.state.sortAllDir===1) {
+        return (<span className="glyphicon glyphicon-triangle-top"/>)
       }        
     }
   }
@@ -135,8 +149,6 @@ class App extends React.Component {
   
 
   showMyGrid() {
-    //[{"username":"Smootimus","img":"https://avatars3.githubusercontent.com/u/6472304?v=4","alltime":95,"recent":81,"lastUpdate":"2018-03-19T19:24:02.627Z"}
-
     return (
         <div>
                 <table className="mo-table">  
@@ -153,8 +165,8 @@ class App extends React.Component {
   
   render() {
     return (
-      <div id="mo-board">
-        <h1>Camper Leaderboard</h1>
+      <div id="mo-board ">
+        <span className="mo-title">Camper Leaderboard</span>
         {this.showMyGrid()}
       </div>
      )
@@ -166,16 +178,16 @@ class MyRow extends React.Component {
   render() {
     return (
       <tr >
-    <td className = {this.props.rowClassName}>
+    <td >
       <img alt={this.props.username} src={this.props.img} height="42" width="42"></img>
     </td>
-    <td className = {this.props.rowClassName}>
+    <td >
       {this.props.username}
       </td>
-    <td className = {this.props.rowClassName}>
+    <td className="mo-glyph-col-30">
     {this.props.recent}
     </td>
-    <td className = {this.props.rowClassName}>
+    <td className="mo-glyph-col-all" >
     {this.props.alltime}
     </td>
   

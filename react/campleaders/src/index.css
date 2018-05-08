@@ -1,28 +1,26 @@
 
 
 body {
-  margin: 0;
+  margin: 0px 30px;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Itim', cursive;
+
 }
 
-.mo-row {
-  max-height: 60px;
+.mo-title {
+  font-size: 75px;
 }
+.mo-glyph-col-30 {min-width: 195px;}
+.mo-glyph-col-all {min-width: 150px;}
 
-.mo-col {
-  padding: 10px 20px 10px 10px;
-}
+.mo-table  {border-collapse:collapse;border-spacing:0;border-color:#fee8aa;padding:50px}
 
-
-.mo-table  {border-collapse:collapse;border-spacing:0;border-color:#fee8aa;}
-
-.mo-table td {font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;color:#669;
+.mo-table td {    font-size: 30px;padding:15px 15px 15px 15px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;color:#669;
   background-color:#d5c7ee;}
 
 .mo-table tr:nth-child(even) td{
   background-color: #dad4e9}
 
-.mo-table th{font-family:Arial, sans-serif;font-size:16px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;color:rgb(161, 183, 228);background-color:#403055;}
+.mo-table th{font-size:25px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;color:rgb(161, 183, 228);background-color:#403055;}
 
 .mo-table-h{font-size:14px;vertical-align:top}
