@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import  'react-bootstrap'
 /*
 
 To do:
@@ -27,10 +26,11 @@ Hint: To get the top 100 campers of all time: https://fcctop100.herokuapp.com/ap
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state={ campers30:[], rowStripe:0, sortDir:0 }
+    this.state={ campers30:[], rowStripe:0, sort30Dir:0, sortAllDir:0 }
     this.onSort = this.onSort.bind(this)
     this.loadCampers = this.loadCampers.bind(this)
     this.showMyGrid=this.showMyGrid.bind(this)
+    this.getIcon=this.getIcon.bind(this)
   }    
   
   onSort(event, sortKey){
@@ -43,12 +43,22 @@ class App extends React.Component {
     ]
     */
     const campers = this.state.campers30;
-    
-    this.setState( (state) => ({sortDir : Math.abs(this.state.sortDir-1)}) )
-    if (this.state.sortDir===0) {
-      campers.sort((a,b) => this.doCompare(b[sortKey],a[sortKey]))
+    if (sortKey==="recent") {
+      this.setState( (state) => ({sortDir : Math.abs(this.state.sort30Dir-1)}) )
+      if (this.state.sort30Dir===0) {
+        campers.sort((a,b) => this.doCompare(b[sortKey],a[sortKey]))
+      } else {
+        campers.sort((a,b) => this.doCompare(a[sortKey],b[sortKey]))
+      }
+  
     } else {
-      campers.sort((a,b) => this.doCompare(a[sortKey],b[sortKey]))
+      this.setState( (state) => ({sortDir : Math.abs(this.state.sortAllDir-1)}) )
+      if (this.state.sorAlltDir===0) {
+        campers.sort((a,b) => this.doCompare(b[sortKey],a[sortKey]))
+      } else {
+        campers.sort((a,b) => this.doCompare(a[sortKey],b[sortKey]))
+      }
+  
     }
     this.setState({campers30:campers})
   }
@@ -88,13 +98,29 @@ class App extends React.Component {
       Name
       </th>
       <th onClick={e => this.onSort(e, 'recent')}>
-      Last 30 Days
+      Last 30 Days {this.getIcon("recent")}
       </th>
       <th onClick={e => this.onSort(e, 'alltime')}>
-      All Time
+      All Time {this.getIcon("alltime")}
       </th>
           </tr>
     )
+  }
+
+  getIcon(col) {
+    if (col==="recent") {
+      if (this.state.sort30Dir===0){
+        return (<span className="glyphicon glyphicon-triangle-top"/>)
+      } else {
+        return (<span className="glyphicon glyphicon-triangle-bottom"/>)
+      }
+    } else {
+      if (this.state.sortAllDir===0){
+        return (<span className="glyphicon glyphicon-triangle-top"/>)
+      } else {
+        return (<span className="glyphicon glyphicon-triangle-bottom"/>)
+      }        
+    }
   }
 
   showRows() {
