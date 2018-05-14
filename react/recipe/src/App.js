@@ -27,92 +27,129 @@ User Story: All new recipes I add are saved in my browser's local storage. If I 
 Hint: You should prefix your local storage keys on CodePen, i.e. _username_recipes
 */
 var newRecipeName = "New Recipe"
+var pcbluesRecipes = "_pcblues_recipebox"
+var recipes= []
+var selectedID = 0
+var topID=0
 
-const newRecipe = {
-  key: newRecipeName,
-  name: newRecipeName,
-  description: "Add ingredients here..."
+class Recipe {
+  constructor (thisKey) {
+    
+    this.key=thisKey
+    this.name=newRecipeName
+    this.description="Add ingredients here..."
+  }
+
+
 }
 
-var pcbluesRecipes = "_pcblues_recipebox"
-var recipes= null
 
 class App extends React.Component {
   
   constructor(props) {
     super(props)
     //this.onSort = this.onSort.bind(this)
-    this.state = {recipes:null }
     this.loadRecipes=this.loadRecipes.bind(this)
-    this.getRecipes = this.getRecipes.bind(this)
+    this.addNewRecipe=this.addNewRecipe.bind(this)
     this.render = this.render.bind(this)
 
   }    
   
+  getNewKey(){
+    topID+=1
+    return topID
+  }
+
   componentWillMount() {
-    recipes=this.getRecipes()
+    this.loadRecipes()
   }
 
   componentDidMount(){
   }
   
+  addNewRecipe() {
+      // get from browser storage
+     
+    var thisRecipe = this.createNewRecipe()
+    recipes.push(thisRecipe)      
+       
+    for (let recipe of recipes) {
+      if (recipe.key>=topID) {
+        topID=recipe.key+1
+      }
+    }
+    ReactDOM.render(<App />, document.getElementById('root'));
+
+  }
+
   loadRecipes() {
     // get from browser storage
-    var theRecipes=null
+    
     if (typeof(Storage)!=="undefined") {
-       theRecipes=window.localStorage.getItem(pcbluesRecipes)
+      recipes= JSON.parse(window.localStorage.getItem(pcbluesRecipes))
     }
 
-    if (theRecipes==null) {
-      theRecipes=[]
+    if ((recipes==null) || (recipes==="null")) {
+      recipes=[]
     }
 
-    if (theRecipes.length===0) {
-      var thisRecipe = Object.create(newRecipe)
-      theRecipes.push(thisRecipe)
-    }
+    if (recipes.length===0) {
+      this.addNewRecipe()      
+    } 
 
-    this.setState({recipes:theRecipes})  
-    return theRecipes   
+    this.saveRecipes()
   }
 
-  getRecipeByName(pName){
-    return recipes.find(function(obj){
-      return obj.name===pName
+  createNewRecipe() {
+    var thisRecipe=new Recipe(this.getNewKey())
+    return thisRecipe 
+  }
+
+  newTopID() {
+    window.topID+=1
+    return window.topID
+  }
+
+  getRecipeByKey(pKey){
+    var keyInt = parseInt(pKey,10)
+    var recipe = recipes.find(function(obj){
+      return obj.key===keyInt
     })
+    return recipe
   }
 
-  getRecipes() {
-    var theRecipes = this.state.recipes
-    if (theRecipes==null) {
-      return this.loadRecipes()
-    }
-  }
-  
   saveRecipes() {
     if (typeof(Storage) !== "undefined") {
-      window.localStorage.setItem(pcbluesRecipes,this.state.recipes)
+      window.localStorage.setItem(pcbluesRecipes,JSON.stringify(recipes))
     }
   }
   
-  displayRecipe(pName) {
+  displayRecipe(pKey) {
     var rname = document.getElementById("taName")
     var dname = document.getElementById("taDescription")
-    var recipe = this.getRecipeByName(pName)
+    var recipe = this.getRecipeByKey(pKey)
     if (recipe!==null) {
-      rname.innerHTML=recipe.name
-      dname.innerHTML=recipe.description
+      rname.value=recipe.name
+      dname.value=recipe.description
     }
   }
 
   selectRecipe(event) {
     // if new recipe, create new recipe beneath
+    selectedID = event.target.id
+    var selectedRecipe = this.getRecipeByKey(selectedID)
+    if (selectedRecipe.name===newRecipeName) {
+      this.addNewRecipe()
+    }
+    
+    var textBox = document.getElementById("taName")
+    textBox.focus()
   }
 
-  recipeButton(pName,pDescription) {
+  recipeButton(pName,pDescription,pKey) {
     return (
-      <div>
-        <button type="button" className="mo-butt btn btn-light" onMouseOver={e => this.displayRecipe(pName)} onClick={e => this.selectRecipe(pName) }>{pName}</button>
+      <div key={pKey}>
+        <button id={pKey} type="button" className="mo-butt btn btn-light" onMouseOver={e => this.displayRecipe(pKey)} onClick={e => this.selectRecipe(e) }>{pName}</button>
       </div>
     )
   }
@@ -124,7 +161,7 @@ class App extends React.Component {
           <div className="row">
           <div className="col-sm-4 panel panel-default mo-panel">
           
-          {recipes.map(i => this.recipeButton(i.name,i.description))}
+          {recipes.map(i => this.recipeButton(i.name,i.description,i.key))}
 
           
 
