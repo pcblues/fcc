@@ -25,5 +25,19 @@ textarea {
 }
 
 .mo-butt {
+ 
   width:100%;
+  
+}
+
+.mo-butt-delete-show {
+  
+  display:inline;
+  
+}
+
+.mo-butt-delete-hide {
+  
+  display:none;
+  
 }

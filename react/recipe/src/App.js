@@ -31,6 +31,9 @@ var pcbluesRecipes = "_pcblues_recipebox"
 var recipes= []
 var selectedID = 0
 var topID=0
+var buttPrefix="butt"
+var delButtPrefix="delButt"
+var delDivPrefix="delDiv"
 
 class Recipe {
   constructor (thisKey) {
@@ -51,7 +54,9 @@ class App extends React.Component {
     //this.onSort = this.onSort.bind(this)
     this.loadRecipes=this.loadRecipes.bind(this)
     this.addNewRecipe=this.addNewRecipe.bind(this)
+    this.displayRecipe=this.displayRecipe.bind(this)
     this.render = this.render.bind(this)
+    this.state = {recipes:[]}
 
   }    
   
@@ -78,8 +83,9 @@ class App extends React.Component {
         topID=recipe.key+1
       }
     }
-    ReactDOM.render(<App />, document.getElementById('root'));
-
+    thisRecipe.key=topID
+    this.setState({recipes:recipes})
+    this.saveRecipes()
   }
 
   loadRecipes() {
@@ -97,7 +103,7 @@ class App extends React.Component {
       this.addNewRecipe()      
     } 
 
-    this.saveRecipes()
+    this.setState({recipes:recipes})
   }
 
   createNewRecipe() {
@@ -111,11 +117,21 @@ class App extends React.Component {
   }
 
   getRecipeByKey(pKey){
+    if (isNaN(pKey)) {
+      pKey=pKey.replace(/\D/g,'')
+    }
     var keyInt = parseInt(pKey,10)
     var recipe = recipes.find(function(obj){
       return obj.key===keyInt
     })
     return recipe
+  }
+
+  deleteAllRecipes() {
+    recipes = []
+    if (typeof(Storage) !== "undefined") {
+      window.localStorage.setItem(pcbluesRecipes,JSON.stringify(recipes))
+    }   
   }
 
   saveRecipes() {
@@ -132,6 +148,17 @@ class App extends React.Component {
       rname.value=recipe.name
       dname.value=recipe.description
     }
+
+    for (var c=0; c<recipes.length;c++) {
+      var butt = document.getElementById(delButtPrefix+recipes[c].key)
+      if (butt!==null) {
+        if (butt.id===delButtPrefix+pKey) {
+          butt.className = "mo-butt-delete-show  btn btn-light"
+        } else {
+          butt.className = "mo-butt-delete-hide  btn btn-light"
+        }          
+      }
+    }
   }
 
   selectRecipe(event) {
@@ -146,10 +173,35 @@ class App extends React.Component {
     textBox.focus()
   }
 
+  deleteRecipe(event){
+    selectedID = event.target.id
+    var selectedRecipe=this.getRecipeByKey(selectedID)
+    if (selectedRecipe!==null){
+      for (var c=recipes.length-1;c>=0;c--) {
+        if (recipes[c].key===selectedRecipe.key) {
+          recipes.splice(c,1)
+        }
+      }
+      if (recipes.length==0) {
+        this.addNewRecipe()
+      }
+      this.saveRecipes()
+      this.setState({recipes:recipes})
+      }
+  }
+
   recipeButton(pName,pDescription,pKey) {
     return (
       <div key={pKey}>
-        <button id={pKey} type="button" className="mo-butt btn btn-light" onMouseOver={e => this.displayRecipe(pKey)} onClick={e => this.selectRecipe(e) }>{pName}</button>
+              <div className="row">
+          <div className="col-sm-10">
+        <button id={buttPrefix+pKey} type="button" className="mo-butt btn btn-light" onMouseOver={e => this.displayRecipe(pKey)} onClick={e => this.selectRecipe(e) }>{pName}        
+        </button>
+        </div>
+        <div id={delDivPrefix+pKey}  className="col-sm-2">        
+        <button id={delButtPrefix+pKey} onClick={e => this.deleteRecipe(e) } className="mo-butt-delete-hide btn btn-light">X</button>
+        </div>
+        </div>
       </div>
     )
   }
@@ -162,9 +214,6 @@ class App extends React.Component {
           <div className="col-sm-4 panel panel-default mo-panel">
           
           {recipes.map(i => this.recipeButton(i.name,i.description,i.key))}
-
-          
-
             </div>   
           <div className="col-sm-8 panel panel-default mo-panel">
             <textarea id="taName"  rows="1"/><br/>   
