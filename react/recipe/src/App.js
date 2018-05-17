@@ -27,6 +27,7 @@ User Story: All new recipes I add are saved in my browser's local storage. If I 
 Hint: You should prefix your local storage keys on CodePen, i.e. _username_recipes
 */
 var newRecipeName = "New Recipe"
+var newRecipeDescription =  "Add ingredients here..."
 var pcbluesRecipes = "_pcblues_recipebox"
 var recipes= []
 var selectedID = 0
@@ -34,13 +35,15 @@ var topID=0
 var buttPrefix="butt"
 var delButtPrefix="delButt"
 var delDivPrefix="delDiv"
+var taName = "taName"
+var taDescription = "taDescription"
 
 class Recipe {
   constructor (thisKey) {
     
     this.key=thisKey
-    this.name=newRecipeName
-    this.description="Add ingredients here..."
+    this.name=""
+    this.description=""
   }
 
 
@@ -57,7 +60,6 @@ class App extends React.Component {
     this.displayRecipe=this.displayRecipe.bind(this)
     this.render = this.render.bind(this)
     this.state = {recipes:[]}
-
   }    
   
   getNewKey(){
@@ -71,9 +73,13 @@ class App extends React.Component {
 
   componentDidMount(){
   }
+
+  componentWillUnmount() {
+    this.saveRecipes()
+  }
   
   addNewRecipe() {
-      // get from browser storage
+    // get from browser storage
      
     var thisRecipe = this.createNewRecipe()
     recipes.push(thisRecipe)      
@@ -153,9 +159,9 @@ class App extends React.Component {
       var butt = document.getElementById(delButtPrefix+recipes[c].key)
       if (butt!==null) {
         if (butt.id===delButtPrefix+pKey) {
-          butt.className = "mo-butt-delete-show  btn btn-light"
+          butt.className = "mo-butt-delete-show btn btn-light"
         } else {
-          butt.className = "mo-butt-delete-hide  btn btn-light"
+          butt.className = "mo-butt-delete-hide btn btn-light"
         }          
       }
     }
@@ -165,7 +171,14 @@ class App extends React.Component {
     // if new recipe, create new recipe beneath
     selectedID = event.target.id
     var selectedRecipe = this.getRecipeByKey(selectedID)
-    if (selectedRecipe.name===newRecipeName) {
+    // check if only one button has newRecipeName
+    var newRecipeCount=0
+    for (var c=0;c<recipes.length;c++) {
+      if (recipes[c].name==newRecipeName) {
+        newRecipeCount++
+      }
+    }
+    if (newRecipeCount<=1) {
       this.addNewRecipe()
     }
     
@@ -182,23 +195,23 @@ class App extends React.Component {
           recipes.splice(c,1)
         }
       }
-      if (recipes.length==0) {
+      if (recipes.length===0) {
         this.addNewRecipe()
       }
       this.saveRecipes()
       this.setState({recipes:recipes})
-      }
+    }
   }
 
   recipeButton(pName,pDescription,pKey) {
     return (
       <div key={pKey}>
               <div className="row">
-          <div className="col-sm-10">
+          <div className="col-xs-9">
         <button id={buttPrefix+pKey} type="button" className="mo-butt btn btn-light" onMouseOver={e => this.displayRecipe(pKey)} onClick={e => this.selectRecipe(e) }>{pName}        
         </button>
         </div>
-        <div id={delDivPrefix+pKey}  className="col-sm-2">        
+        <div id={delDivPrefix+pKey}  className="col-xs-3">        
         <button id={delButtPrefix+pKey} onClick={e => this.deleteRecipe(e) } className="mo-butt-delete-hide btn btn-light">X</button>
         </div>
         </div>
@@ -206,18 +219,29 @@ class App extends React.Component {
     )
   }
   
+  updateRecipe(event) {
+    var currentRecipe = this.getRecipeByKey(selectedID)
+    if (currentRecipe!==null) {
+      if (event.target.id===taName) {
+        currentRecipe.name = event.target.value
+      } else if (event.target.id===taDescription) {
+        currentRecipe.description = event.target.value
+      }
+      this.setState({recipes:recipes})
+    }
+  }
+
   render() {
     return (
       <div id="mo-recipes text-center">
         <div className="mo-title">My Recipes</div>
           <div className="row">
           <div className="col-sm-4 panel panel-default mo-panel">
-          
           {recipes.map(i => this.recipeButton(i.name,i.description,i.key))}
             </div>   
           <div className="col-sm-8 panel panel-default mo-panel">
-            <textarea id="taName"  rows="1"/><br/>   
-            <textarea id="taDescription" cols="40" rows="8"/><br/>
+            <textarea onChange={e => this.updateRecipe(e)}  id={taName}  rows="1" placeholder={newRecipeName}/><br/>   
+            <textarea onChange={e => this.updateRecipe(e)}  id={taDescription} cols="40" rows="8" placeholder ={newRecipeDescription}/><br/>
                    
           </div>
         </div>
