@@ -72,6 +72,7 @@ class App extends React.Component {
   }
 
   componentDidMount(){
+    this.disableText()
   }
 
   componentWillUnmount() {
@@ -105,7 +106,7 @@ class App extends React.Component {
       recipes=[]
     }
 
-    if (recipes.length===0) {
+    if (recipes.length==0) {
       this.addNewRecipe()      
     } 
 
@@ -163,25 +164,49 @@ class App extends React.Component {
         } else {
           butt.className = "mo-butt-delete-hide btn btn-light"
         }          
+        this.disableText()
+    
       }
     }
   }
+
+  disableText() {
+    var rname = document.getElementById("taName")
+    var dname = document.getElementById("taDescription")
+
+    rname.disabled=true
+    dname.disabled=true
+
+  }
+
+  enableText(){
+    var rname = document.getElementById("taName")
+    var dname = document.getElementById("taDescription")
+
+    rname.disabled=false
+    dname.disabled=false
+
+  }
+
+checkForNewRecipe() {
+  var newRecipeCount=0
+  for (var c=0;c<recipes.length;c++) {
+    if (recipes[c].name=="") {
+      newRecipeCount++
+    }
+  }
+  if (newRecipeCount==0) {
+    this.addNewRecipe()
+  }
+}
 
   selectRecipe(event) {
     // if new recipe, create new recipe beneath
     selectedID = event.target.id
     var selectedRecipe = this.getRecipeByKey(selectedID)
     // check if only one button has newRecipeName
-    var newRecipeCount=0
-    for (var c=0;c<recipes.length;c++) {
-      if (recipes[c].name==newRecipeName) {
-        newRecipeCount++
-      }
-    }
-    if (newRecipeCount<=1) {
-      this.addNewRecipe()
-    }
-    
+    this.checkForNewRecipe()    
+    this.enableText()
     var textBox = document.getElementById("taName")
     textBox.focus()
   }
@@ -203,16 +228,23 @@ class App extends React.Component {
     }
   }
 
+  displayName(pName) {
+    if (pName==="") {
+      return newRecipeName
+    } else {
+      return pName
+    }
+  }
   recipeButton(pName,pDescription,pKey) {
     return (
       <div key={pKey}>
-              <div className="row">
-          <div className="col-xs-9">
-        <button id={buttPrefix+pKey} type="button" className="mo-butt btn btn-light" onMouseOver={e => this.displayRecipe(pKey)} onClick={e => this.selectRecipe(e) }>{pName}        
+              <div className="row ">
+          <div className="col-xs-9 ">
+        <button id={buttPrefix+pKey} type="button" className="mo-butts mo-butt btn btn-light" onMouseOver={e => this.displayRecipe(pKey)} onClick={e => this.selectRecipe(e) }>{this.displayName(pName)}     
         </button>
         </div>
-        <div id={delDivPrefix+pKey}  className="col-xs-3">        
-        <button id={delButtPrefix+pKey} onClick={e => this.deleteRecipe(e) } className="mo-butt-delete-hide btn btn-light">X</button>
+        <div id={delDivPrefix+pKey}  className="col-xs-3 ">        
+        <button id={delButtPrefix+pKey}  onClick={e => this.deleteRecipe(e) } className="mo-butt mo-butt-delete-hide btn btn-light">X</button>
         </div>
         </div>
       </div>
@@ -220,6 +252,7 @@ class App extends React.Component {
   }
   
   updateRecipe(event) {
+
     var currentRecipe = this.getRecipeByKey(selectedID)
     if (currentRecipe!==null) {
       if (event.target.id===taName) {
@@ -227,8 +260,9 @@ class App extends React.Component {
       } else if (event.target.id===taDescription) {
         currentRecipe.description = event.target.value
       }
-      this.setState({recipes:recipes})
-    }
+      this.saveRecipes()
+      this.setState({recipes:recipes}) 
+      this.checkForNewRecipe()  }
   }
 
   render() {
@@ -239,7 +273,7 @@ class App extends React.Component {
           <div className="col-sm-4 panel panel-default mo-panel">
           {recipes.map(i => this.recipeButton(i.name,i.description,i.key))}
             </div>   
-          <div className="col-sm-8 panel panel-default mo-panel">
+          <div className="col-sm-7 panel panel-default mo-panel">
             <textarea onChange={e => this.updateRecipe(e)}  id={taName}  rows="1" placeholder={newRecipeName}/><br/>   
             <textarea onChange={e => this.updateRecipe(e)}  id={taDescription} cols="40" rows="8" placeholder ={newRecipeDescription}/><br/>
                    
