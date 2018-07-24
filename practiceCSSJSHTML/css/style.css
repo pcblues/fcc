@@ -1,0 +1,18 @@
+
+* {
+  font-family: Raleway;
+}
+
+#test2{
+  border: 10px solid;
+  border-radius: 20px;
+  margin:20px 20px 20px 20px;
+  border-color:black;
+  color:black;
+}
+
+#test{
+  background-color: aqua;
+  
+  
+}
