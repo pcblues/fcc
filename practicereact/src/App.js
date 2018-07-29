@@ -1,8 +1,34 @@
-import React, { Component } from 'react';
 import './App.css';
+import React from 'react';
 
 /* snip down  for codepen */
-class App extends Component {
+class DrumPad extends React.Component {
+  /*
+  constructor(props) {
+    super(props)
+
+  }
+  */
+  playSound(event) {
+    var target=event.target
+    var newPlayed=target.id
+    this.setState({played:newPlayed})
+    }
+
+  render() {
+    return(
+      <div className='drumpad' id={this.props.thisId}
+      onClick={this.playSound}
+      >
+      <audio src={this.props.soundSrc} className="clip"
+      id={this.props.playKey}></audio>
+      {this.props.playKey}
+      </div>
+    )
+  }
+}
+
+class App extends React.Component {
   constructor(props) {
     super(props)
     this.state={played:"test"}
@@ -19,6 +45,12 @@ class App extends Component {
         return( 
 					<div id="drum-machine" >
             <div id="display">{this.state.played}</div> 
+              <DrumPad 
+                thisId='drum1'
+                soundSrc="http://pcblues.com/fcc/simon/assets/victory.mp3"
+                playKey='Q'
+
+              />
               <div className="drum-pad" id="drum1" onClick={this.setPlayed}><audio src="http://pcblues.com/fcc/simon/assets/victory.mp3" className="clip" id="Q"></audio> Q</div>
               <div className="drum-pad" id="drum2" onClick={this.setPlayed}><audio src="http://pcblues.com/fcc/simon/assets/upgrade.mp3" className="clip" id="W"></audio>W</div>
               <div className="drum-pad" id="drum3" onClick={this.setPlayed}><audio src="http://pcblues.com/fcc/simon/assets/delete.mp3" className="clip" id="E"></audio>E</div>
@@ -36,9 +68,9 @@ class App extends Component {
               </audio>C</div>
             </div>
           
-      );
+      )
     }
-};
+}
 
 
 /* snip up for codepen */
