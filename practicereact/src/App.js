@@ -3,16 +3,16 @@ import React from 'react';
 
 /* snip down  for codepen */
 class DrumPad extends React.Component {
-  /*
+  
   constructor(props) {
     super(props)
-
+   this.playSound=this.playSound.bind(this) 
   }
-  */
+  
   playSound(event) {
     var target=event.target
     var newPlayed=target.id
-    this.setState({played:newPlayed})
+    this.props.displayHandler(newPlayed)
     }
 
   render() {
@@ -32,40 +32,72 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state={played:"test"}
-    this.setPlayed=this.setPlayed.bind(this)
+    this.handleDisplayChange=this.handleDisplayChange.bind(this)
   }
 
-  setPlayed(event) {
-    var target=event.target
-    var newPlayed=target.id
-    this.setState({played:newPlayed})
+  handleDisplayChange(text) {
+    this.setState({played:text})
   }
 
     render() {
         return( 
 					<div id="drum-machine" >
             <div id="display">{this.state.played}</div> 
+
               <DrumPad 
                 thisId='drum1'
                 soundSrc="http://pcblues.com/fcc/simon/assets/victory.mp3"
                 playKey='Q'
-
+                displayHandler={this.handleDisplayChange}
               />
-              <div className="drum-pad" id="drum1" onClick={this.setPlayed}><audio src="http://pcblues.com/fcc/simon/assets/victory.mp3" className="clip" id="Q"></audio> Q</div>
-              <div className="drum-pad" id="drum2" onClick={this.setPlayed}><audio src="http://pcblues.com/fcc/simon/assets/upgrade.mp3" className="clip" id="W"></audio>W</div>
-              <div className="drum-pad" id="drum3" onClick={this.setPlayed}><audio src="http://pcblues.com/fcc/simon/assets/delete.mp3" className="clip" id="E"></audio>E</div>
-              <div className="drum-pad" id="drum4" onClick={this.setPlayed}><audio src="http://pcblues.com/fcc/simon/assets/beep1a.mp3" className="clip" id="A">
-              </audio>A</div>
-              <div className="drum-pad" id="drum5" onClick={this.setPlayed}><audio src="http://pcblues.com/fcc/simon/assets/beep1b.mp3" className="clip" id="S">
-              </audio>S</div>
-              <div className="drum-pad" id="drum6" onClick={this.setPlayed}><audio src="http://pcblues.com/fcc/simon/assets/beep1c.mp3" className="clip" id="D">
-              </audio>D</div>
-              <div className="drum-pad" id="drum7" onClick={this.setPlayed}><audio src="http://pcblues.com/fcc/simon/assets/beep1d.mp3" className="clip" id="Z">
-              </audio>Z</div>
-              <div className="drum-pad" id="drum8" onClick={this.setPlayed}><audio src="http://pcblues.com/fcc/simon/assets/beep1c.mp3" className="clip" id="X">
-              </audio>X</div>
-              <div className="drum-pad" id="drum9" onClick={this.setPlayed}><audio src="http://pcblues.com/fcc/simon/assets/beep1d.mp3" className="clip" id="C">
-              </audio>C</div>
+              <DrumPad 
+                thisId='drum2'
+                soundSrc="http://pcblues.com/fcc/simon/assets/upgrade.mp3"
+                playKey='W'
+                displayHandler={this.handleDisplayChange}
+              />
+              <DrumPad 
+                thisId='drum3'
+                soundSrc="http://pcblues.com/fcc/simon/assets/victory.mp3"
+                playKey='E'
+                displayHandler={this.handleDisplayChange}
+              />
+              <DrumPad 
+                thisId='drum4'
+                soundSrc="http://pcblues.com/fcc/simon/assets/victory.mp3"
+                playKey='A'
+                displayHandler={this.handleDisplayChange}
+              />
+              <DrumPad 
+                thisId='drum5'
+                soundSrc="http://pcblues.com/fcc/simon/assets/beep1d.mp3"
+                playKey='S'
+                displayHandler={this.handleDisplayChange}
+              />
+              <DrumPad 
+                thisId='drum6'
+                soundSrc="http://pcblues.com/fcc/simon/assets/beep1c.mp3"
+                playKey='D'
+                displayHandler={this.handleDisplayChange}
+              />
+              <DrumPad 
+                thisId='drum7'
+                soundSrc="http://pcblues.com/fcc/simon/assets/beep1b.mp3"
+                playKey='Z'
+                displayHandler={this.handleDisplayChange}
+              />
+              <DrumPad 
+                thisId='drum8'
+                soundSrc="http://pcblues.com/fcc/simon/assets/beep1a.mp3"
+                playKey='X'
+                displayHandler={this.handleDisplayChange}
+              />
+              <DrumPad 
+                thisId='drum9'
+                soundSrc="http://pcblues.com/fcc/simon/assets/delete.mp3"
+                playKey='C'
+                displayHandler={this.handleDisplayChange}
+              />
             </div>
           
       )
