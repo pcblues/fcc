@@ -1,27 +1,34 @@
 /* copy below to codepen */
 
+#drum-machine {
+  border: 50px 50px 50px 50px ;
+  margin:50px 50px 50px 50px ;
+  border-color: aqua;
+  border-radius: 10px;
+}
+
+
 #display {
   border: 50px 50px 50px 50px;
   margin:50px 50px 50px 50px;
-  
+  border-color: aqua;
 }
 
 #drums {
   display: grid;
-  grid-gap: 50px;
+  grid-gap: 0px;
   grid-template-columns: repeat(3,1fr);
-
+  border-radius: 10px;
 }
 
 .drum-pad {
-  height: 50px;
+  height: 30px;
+  width: 40px;
   background-color: #999;
-  margin:50px 50px 50px 50px;
-
-}
-
-.drum-pad:nth-child(2n) {
-  background-color: #f00;
+  margin:10px 10px 10px 10px;
+  border-radius: 10px;
+  padding:20px 10px 10px 10px;
+  text-align:center;
 }
 
 

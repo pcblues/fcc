@@ -14,7 +14,7 @@ class DrumPad extends React.Component {
   render() {
     return(
       <div className='drum-pad' id={this.props.thisId}
-      onClick={this.props.playSound(this)}
+      onClick={this.props.playSound}
       >
       <audio src={this.props.soundSrc} className="clip"
       id={this.props.playKey}></audio>
@@ -31,6 +31,8 @@ class App extends React.Component {
     this.state={played:"test"}
     this.findDrum=this.findDrum.bind(this)
     this.playSoundHandler=this.playSoundHandler.bind(this)
+    this.playSound=this.playSound.bind(this)
+    this.findDrumByChar=this.findDrumByChar.bind(this)
     this.drumList=[]
   }
 
@@ -58,7 +60,29 @@ componentWillUnmount() {
     return result
   }
 
-  playSoundHandler(drum) {
+  findDrumByChar(chr){
+    var  result=null
+    var drumCount=this.drumList.length
+    for(var c=0;c<drumCount;c++) {
+      var drum = this.drumList[c]
+      var checkKey =drum.props.playKey
+      if (checkKey===chr) {
+        result=this.drumList[c]
+      }
+    }
+    return result
+
+  }
+
+  playSoundHandler(e) {
+    var drumID = e.target.innerText
+    var drum = this.findDrumByChar(drumID)
+    if (drum!=null) {
+      this.playSound(drum)
+    }
+  }
+
+  playSound(drum) {
     var audio = new Audio(drum.props.soundSrc);
     audio.play();
     this.setState({played:drum.props.playKey})
@@ -68,7 +92,7 @@ componentWillUnmount() {
     // call playSound of Drumpad with id of key
     var drum=this.findDrum(e.keyCode)
     if (drum!=null) {
-      this.playSoundHandler(drum)
+      this.playSound(drum)
     }
   }
 
