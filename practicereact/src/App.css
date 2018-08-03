@@ -1,3 +1,31 @@
+/* copy below to codepen */
+
+#display {
+  border: 50px 50px 50px 50px;
+  margin:50px 50px 50px 50px;
+  
+}
+
+#drums {
+  display: grid;
+  grid-gap: 50px;
+  grid-template-columns: repeat(3,1fr);
+
+}
+
+.drum-pad {
+  height: 50px;
+  background-color: #999;
+  margin:50px 50px 50px 50px;
+
+}
+
+.drum-pad:nth-child(2n) {
+  background-color: #f00;
+}
+
+
+/* copy above to codepen */
 .App {
   text-align: center;
 }
