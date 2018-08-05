@@ -3,6 +3,7 @@ import React from 'react';
 
 /* npm start then open with live server */
 /* snip down  for codepen */
+
 class DrumPad extends React.Component {
   
   constructor(props) {
@@ -178,7 +179,9 @@ componentWillUnmount() {
       return( 
           
 					<div id="drum-machine" >
-            <div id="display">{this.state.played}</div> 
+          <p><i><h1>PCBlues Drum Machine</h1></i>
+            </p>
+            <div id="display">Playing: {this.state.played}</div> 
               <div id="drums">
               {this.drumList}
               
