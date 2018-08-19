@@ -1,0 +1,15 @@
+.axis {
+  font: 10px sans-serif;
+ 
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #aaa;
+  shape-rendering: crispEdges;
+}
+
+svg {
+    background-color: pink;
+  }
