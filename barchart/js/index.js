@@ -2,62 +2,146 @@
 
 
 // snip below for codepen.io
-const dataset = [12, 31, 22, 17, 25, 18, 29, 14, 9];
+/*
+const url ='https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json'
+
+*/
+
+const url ='http://localhost:8080/data/GDP-data.json'
+
+//const dataset = [12, 31, 22, 17, 25, 18, 29, 14, 9];
+var dataset = []
+svgWidth = 1000
+svgHeight= 500
+
+const margin={top:40,right:40,bottom:70,left:40}
+const gWidth = svgWidth-margin.left-margin.right;
+const gHeight = svgHeight-margin.top-margin.bottom;
+
+
+d3.json(url, function(err, data) { 
+
+    dataset=data.data
+    ndataset = []  
+    dataset.forEach(
+      function(d) {
+        var elem= {}
+        elem.x = d[0]
+        elem.y = d[1]
+        ndataset.push(elem)
+      }
+    )
+
+    // set up svg
+    var svg=d3.select("body")
+    .append("svg")
+      .attr("height",gHeight+margin.top+margin.bottom)
+      .attr("width",gWidth+margin.left+margin.right) 
+      .style("border", "1px solid black");
+
+    // various variables
+
+    var numItems = Object.keys(ndataset).length
+
+    var minDate=d3.min(ndataset,function(d){
+      return d.x
+    })
+    var maxDate= d3.max(ndataset,function(d){
+      return d.x
+    })
+
+    var maxY = d3.max(ndataset, function(d) { 
+      return d.y; 
+    })
+
+    // x axis
     
-const margin={top:20,right:20,bottom:70,left:40}
-const w = 600-margin.left-margin.right;
-const h = 300-margin.top-margin.bottom;
+    var xScale = d3.scaleOrdinal()
+    .range([margin.left,gWidth])
+    .domain([minDate,maxDate])
+    
+    var xAxis = d3.axisBottom()
+    .scale(xScale)
+    .ticks(1)
 
-const barHeight=20
+    var xAxisBottom = gHeight+margin.top
 
-var svg=d3.select("body")
-.append("svg")
-.attr("height",h+margin.top+margin.bottom)
-.attr("width",w+margin.left+margin.right) 
-.selectAll('rect')
-.data(dataset)
-.enter()
-.append('rect').attr('width', function(d) {  return d; })
-.attr('height', barHeight - 1)
-.attr('transform', function(d, i) {
-  return "translate(0," + i * barHeight + ")";})
+    svg.append("g")
+      .attr("id", "x-axis")
+      .attr("transform", "translate(0," + xAxisBottom + ")")
+      .call(xAxis)
+  
+    // y axis
+    var yScale = d3.scaleLinear()
+    .range([gHeight,0])
+    .domain([0, maxY])
+    
+    var yAxis = d3.axisLeft()
+    .scale(yScale)
+    .ticks(10);
 
-svg.append("g")
-     .attr("id", "x-axis")
-  .attr("transform", "translate(0," + w + ")")
-  //.call(xAxis)
+    svg.append("g")
+         .attr("id", "y-axis")
+      .attr("transform", "translate("+margin.left+","+margin.top+")")
+      .call(yAxis)
 
-svg.append("g")
-     .attr("id", "y-axis")
-  .attr("transform", "translate(0," + h + ")")
-  //.call(yAxis)
+    var tooltip = d3.select("body")
+    .append("div")
+    .attr("class", "toolTip")
+    .attr("id","tooltip")
+   
+    // data
+    var bar=svg.selectAll('rect')
+    .data(ndataset)
+    .enter()
+  
+    const barSize=(gWidth/numItems)
+    
+    bar.append('rect')
+      .attr('height', function(d,i) {
+          var barHeight = (d.y/maxY)*gHeight
+          return barHeight
+        })
+      .attr('width', barSize - 1)
+      .attr('class','bar')
+      .attr('data-date',function(d){
+        return d.x
+      })
+      .attr('data-gdp',function(d){
+        return d.y
+      })
+      .attr('transform', function(d, i) {
+        var barHeight = (d.y/maxY)*gHeight
+        var yTrans= xAxisBottom-barHeight
+        var xTrans =  margin.left+(i * barSize)
+        return "translate("+ xTrans +","+yTrans+" )"
+        //return "translate("+ d.x +","+d.y+" )"
+      })
+        .on("mousemove", function(d){
+          tooltip
+            .style("left", d3.event.pageX - 50 + "px")
+            .style("top", d3.event.pageY - 70 + "px")
+            .style("display", "inline-block")
+            .html("Date:"+(d.x) + "<br>GDP:" + (d.y))
+            .attr('data-date',d.x)
+      })
+      .on("mouseout", function(d){ tooltip.style("display", "none");});
+
+})
+
+   
+  
 
 //var xScale = d3.scale.ordinal().rangeRoundBands([0, w], .05);
 
-var yScale = svg.scale.linear().range([h, 0]);
 
-var yAxis = d3.svg.axis()
-.scale(yScale)
-.orient("left")
-.ticks(10);
+
 /*
 var xAxis = d3.svg.axis()
 .scale(xScale)
 .orient("bottom")
 .ticks(10);
 
-*/
-
-
-/*
-.append("g")
-.attr("id","x-axis")
-.attr("transform", "translate(0," + h + ")")
-.append("g")
-.attr("id","y-axis")
-.attr("transform", "translate("+w+",0)")
-*/
-/*
 const x=d3.scale.ordinal()
 .rangeRoundBands([0,w],.1)
 
