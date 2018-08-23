@@ -64,7 +64,7 @@ d3.json(url, function(err, data) {
     
     var xAxis = d3.axisBottom()
     .scale(xScale)
-    .ticks(2)
+    .ticks(5)
 
     var xAxisBottom = gHeight+margin.top
 
