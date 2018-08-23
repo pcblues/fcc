@@ -1,0 +1,16 @@
+{
+  "name": "tomato",
+  "version": "1.0.0",
+  "description": "Pomodora example",
+  "main": "index.js",
+  "dependencies": {
+    "d3": "^5.5.0",
+    "progressbar.js": "^1.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
