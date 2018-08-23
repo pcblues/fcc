@@ -11,7 +11,7 @@ const url ='http://localhost:8080/data/GDP-data.json'
 
 //const dataset = [12, 31, 22, 17, 25, 18, 29, 14, 9];
 var dataset = []
-svgWidth = 1000
+svgWidth = 500
 svgHeight= 500
 
 const margin={top:40,right:40,bottom:70,left:40}
@@ -43,26 +43,28 @@ d3.json(url, function(err, data) {
 
     var numItems = Object.keys(ndataset).length
 
-    var minDate=d3.min(ndataset,function(d){
-      return d.x
-    })
-    var maxDate= d3.max(ndataset,function(d){
-      return d.x
-    })
 
     var maxY = d3.max(ndataset, function(d) { 
       return d.y; 
     })
 
     // x axis
+
+    var minDate=d3.min(ndataset,function(d){
+      return new Date(d.x)
+    })
+    var maxDate= d3.max(ndataset,function(d){
+      return new Date(d.x)
+    })
     
-    var xScale = d3.scaleOrdinal()
-    .range([margin.left,gWidth])
+    
+    var xScale = d3.scaleTime()
+    .range([margin.left,gWidth+margin.right])
     .domain([minDate,maxDate])
     
     var xAxis = d3.axisBottom()
     .scale(xScale)
-    .ticks(1)
+    .ticks(2)
 
     var xAxisBottom = gHeight+margin.top
 
@@ -102,7 +104,10 @@ d3.json(url, function(err, data) {
           var barHeight = (d.y/maxY)*gHeight
           return barHeight
         })
-      .attr('width', barSize - 1)
+      .attr('x',function(d,i){
+        return margin.left+(i*barSize)})
+      .attr('y',function(d){return yScale(d.y)})
+      .attr('width', barSize)
       .attr('class','bar')
       .attr('data-date',function(d){
         return d.x
@@ -111,11 +116,11 @@ d3.json(url, function(err, data) {
         return d.y
       })
       .attr('transform', function(d, i) {
-        var barHeight = (d.y/maxY)*gHeight
-        var yTrans= xAxisBottom-barHeight
-        var xTrans =  margin.left+(i * barSize)
+        
+        var yTrans=  margin.top
+        var xTrans = 0
         return "translate("+ xTrans +","+yTrans+" )"
-        //return "translate("+ d.x +","+d.y+" )"
+  
       })
         .on("mousemove", function(d){
           tooltip
@@ -131,74 +136,3 @@ d3.json(url, function(err, data) {
 
    
   
-
-//var xScale = d3.scale.ordinal().rangeRoundBands([0, w], .05);
-
-
-
-/*
-var xAxis = d3.svg.axis()
-.scale(xScale)
-.orient("bottom")
-.ticks(10);
-
-const x=d3.scale.ordinal()
-.rangeRoundBands([0,w],.1)
-
-const y=d3.scale
-.linear().range([h,0])
-
-const xAxis=d3.svg.axis()
-.scale(x)-
-.orient("bottom")
-.ticks(10)
-
-const yAxis=d3.svg.axis()
-.scale(y)
-.orient("left")
-.ticks(10)
-
-var svg = d3.select("body")
-.append("svg")
-.attr("height",h+margin.left+margin.right)
-.attr("width",w+margin.top+margin.bottom)
-.append("g")
-.attr("transform",
-     "translate(" + margin.left +","+ margin.top + ")")
-
-
-
-x.domain(data.map(function(d) { return d.date; }));
-y.domain([0, d3.max(data, function(d) { return d.value; })]);
-
-svg.append("g")
-  .attr("class", "x axis")
-  .attr("transform", "translate(0," + h + ")")
-  .call(xAxis)
-  
-.selectAll("text")
-  .style("text-anchor", "end")
-  .attr("dx", "-.8em")
-  .attr("dy", "-.55em")
-  .attr("transform", "rotate(-90)" );
-
-svg.append("g")
-  .attr("class", "y axis")
-  .call(yAxis)
-.append("text")
-  .attr("transform", "rotate(-90)")
-  .attr("y", 6)
-  .attr("dy", ".71em")
-  .style("text-anchor", "end")
-  .text("Value ($)");
-
-svg.selectAll("bar")
-  .data(data)
-.enter().append("rect")
-  .style("fill", "steelblue")
-  .attr("x", function(d) { return x(d.date); })
-  .attr("width", x.rangeBand())
-  .attr("y", function(d) { return y(d.value); })
-  .attr("height", function(d) { return height - y(d.value); });
-  
-  */
