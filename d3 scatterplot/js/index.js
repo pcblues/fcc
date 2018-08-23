@@ -3,11 +3,11 @@
 
 // snip below for codepen.io
 /*
-const url ='https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json'
+const url ='https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json'
 
 */
 
-const url ='http://localhost:8080/data/GDP-data.json'
+const url ='http://localhost:8080/data/cyclist-data.json'
 
 //const dataset = [12, 31, 22, 17, 25, 18, 29, 14, 9];
 var dataset = []
