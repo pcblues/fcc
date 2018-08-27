@@ -9,10 +9,15 @@
   shape-rendering: crispEdges;
 }
 
+.legend {
+  font: 10px sans-serif;
+
+}
+
 svg {
     background-color: white;
   }
-  
+
 .dot {
   stroke: #000;
 }
