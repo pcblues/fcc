@@ -2,13 +2,13 @@
 
 
 // snip below for codepen.io
-/*
+
 var url = "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/global-temperature.json";
 
-*/
 
+/*
 const url ='http://localhost:8080/data/global-temperature.json'
-
+*/
 //const dataset = [12, 31, 22, 17, 25, 18, 29, 14, 9];
 var dataset = []
 svgWidth = 700
@@ -227,7 +227,7 @@ d3.json(url, function(err, data) {
             .attr('id','tooltip')
             .attr('data-year',d.year)
             .style("display", "inline-block")
-            .html('Year: '+(d.year)+"<BR>Month:"+(mNames[d.month-1]) + "<br>Temperature:" + (nbaseline+d.variance))
+            .html('Year: '+(d.year)+"<BR>Month:"+(mNames[d.month-1]) + "<br>Temperature:" + Math.round((nbaseline+d.variance)*100 )/100)
            })
     .on("mouseout", function(d){ tooltip.style("display", "none");});
 
